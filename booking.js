@@ -3,14 +3,20 @@
 (function () {
   const STORAGE_KEY = "kuyaBarberAppointments";
 
-  const form = document.getElementById("bookingForm");
-  const success = document.getElementById("bookingSuccess");
+  const formArea = document.getElementById("formArea");
+  const success = document.getElementById("success");
 
-  if (!form) return;
+  const nameInput = document.getElementById("name");
+  const phoneInput = document.getElementById("phone");
+  const branchInput = document.getElementById("branch");
+  const serviceInput = document.getElementById("service");
+  const dateInput = document.getElementById("date");
+  const timeInput = document.getElementById("time");
+  const barberInput = document.getElementById("barber");
 
-  const dateInput = document.getElementById("bookingDate");
+  if (!formArea || !success) return;
 
-  // Prevent customers from selecting a past date
+  /* Prevent customers from selecting a past date */
   if (dateInput) {
     const today = new Date();
 
@@ -23,7 +29,6 @@
     dateInput.min = localToday;
   }
 
-  // Get saved appointments
   function getBookings() {
     try {
       return JSON.parse(
@@ -34,7 +39,6 @@
     }
   }
 
-  // Save appointment
   function saveBooking(booking) {
     const bookings = getBookings();
 
@@ -46,7 +50,6 @@
     );
   }
 
-  // Format date
   function formatDate(value) {
     const date = new Date(value + "T00:00:00");
 
@@ -57,143 +60,136 @@
     });
   }
 
-  form.addEventListener(
-    "submit",
-    function (event) {
-      event.preventDefault();
+  function showMessage(message, isError) {
+    success.innerHTML = message;
 
-      const booking = {
-        id:
-          "KBS-" +
-          Date.now()
-            .toString(36)
-            .toUpperCase(),
+    success.style.display = "block";
 
-        name:
-          document
-            .getElementById("customerName")
-            .value
-            .trim(),
+    if (isError) {
+      success.style.background = "#ffe8e8";
+      success.style.color = "#8b1e1e";
+    } else {
+      success.style.background = "#e8f7e8";
+      success.style.color = "#145c20";
+    }
+  }
 
-        phone:
-          document
-            .getElementById("customerPhone")
-            .value
-            .trim(),
+  window.submitBook = function () {
 
-        branch:
-          document.getElementById("branch").value,
+    const name = nameInput
+      ? nameInput.value.trim()
+      : "";
 
-        service:
-          document.getElementById("service").value,
+    const phone = phoneInput
+      ? phoneInput.value.trim()
+      : "";
 
-        date:
-          document
-            .getElementById("bookingDate")
-            .value,
+    const branch = branchInput
+      ? branchInput.value
+      : "";
 
-        time:
-          document
-            .getElementById("bookingTime")
-            .value,
+    const service = serviceInput
+      ? serviceInput.value
+      : "";
 
-        barber:
-          document.getElementById("barber").value ||
-          "Any Available Barber",
+    const date = dateInput
+      ? dateInput.value
+      : "";
 
-        status: "Pending",
+    const time = timeInput
+      ? timeInput.value
+      : "";
 
-        createdAt:
-          new Date().toISOString()
-      };
+    const barber = barberInput
+      ? barberInput.value || "Any Available Barber"
+      : "Any Available Barber";
 
-      // Validate Philippine mobile number
-      const phone = booking.phone.replace(
-        /[\s-]/g,
-        ""
+    /* Required fields */
+    if (!name || !phone || !date || !time) {
+      showMessage(
+        "⚠️ Please complete your name, mobile number, date and time.",
+        true
       );
+      return;
+    }
 
-      if (!/^09\d{9}$/.test(phone)) {
-        success.innerHTML =
-          "⚠️ Please enter a valid Philippine mobile number (09XXXXXXXXX).";
+    /* Philippine mobile number validation */
+    const cleanPhone = phone.replace(/[\s-]/g, "");
 
-        success.className =
-          "booking-success booking-error";
-
-        success.style.display = "block";
-
-        return;
-      }
-
-      // Prevent duplicate booking on this device
-      const duplicate = getBookings().some(
-        function (item) {
-          return (
-            item.branch === booking.branch &&
-            item.date === booking.date &&
-            item.time === booking.time &&
-            item.barber === booking.barber
-          );
-        }
+    if (!/^09\d{9}$/.test(cleanPhone)) {
+      showMessage(
+        "⚠️ Please enter a valid Philippine mobile number (09XXXXXXXXX).",
+        true
       );
+      return;
+    }
 
-      if (duplicate) {
-        success.innerHTML =
-          "⚠️ You already have a booking for this branch, date, time and barber on this device. Please choose another slot.";
+    /* Create booking reference */
+    const booking = {
+      id:
+        "KBS-" +
+        Date.now()
+          .toString(36)
+          .toUpperCase(),
 
-        success.className =
-          "booking-success booking-error";
+      name: name,
+      phone: cleanPhone,
+      branch: branch,
+      service: service,
+      date: date,
+      time: time,
+      barber: barber,
+      status: "Pending",
+      createdAt: new Date().toISOString()
+    };
 
-        success.style.display = "block";
+    /* Prevent duplicate booking */
+    const duplicate = getBookings().some(function (item) {
+      return (
+        item.branch === booking.branch &&
+        item.date === booking.date &&
+        item.time === booking.time &&
+        item.barber === booking.barber
+      );
+    });
 
-        return;
-      }
+    if (duplicate) {
+      showMessage(
+        "⚠️ This time slot is already booked on this device. Please choose another time.",
+        true
+      );
+      return;
+    }
 
-      // Save booking
-      saveBooking(booking);
+    /* Save appointment */
+    saveBooking(booking);
 
-      // Show confirmation
-      success.className = "booking-success";
+    /* Hide form */
+    formArea.style.display = "none";
 
-      success.innerHTML =
-        "✅ <strong>Booking received!</strong><br><br>" +
+    /* Show confirmation */
+    showMessage(
+      "✅ <strong>Booking Received!</strong><br><br>" +
+      "Reference: <strong>" + booking.id + "</strong><br><br>" +
+      "Thank you, " + booking.name + "!<br>" +
+      "Your <strong>" + booking.service + "</strong> appointment at " +
+      "<strong>" + booking.branch + "</strong><br>" +
+      "is requested for <strong>" +
+      formatDate(booking.date) +
+      "</strong> at <strong>" +
+      booking.time +
+      "</strong>.<br><br>" +
+      "Preferred Barber: <strong>" +
+      booking.barber +
+      "</strong><br><br>" +
+      "<small>Your booking has been saved successfully.</small>",
+      false
+    );
 
-        "Booking Reference: " +
-        "<strong>" +
-        booking.id +
-        "</strong><br><br>" +
+    success.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  };
 
-        "Thank you, " +
-        booking.name +
-        "!<br>" +
-
-        "Your <strong>" +
-        booking.service +
-        "</strong> appointment at " +
-
-        "<strong>" +
-        booking.branch +
-        "</strong> is requested for " +
-
-        "<strong>" +
-        formatDate(booking.date) +
-        "</strong> at " +
-
-        "<strong>" +
-        booking.time +
-        "</strong>.<br><br>" +
-
-        "<small>Your booking has been saved successfully.</small>";
-
-      success.style.display = "block";
-
-      form.reset();
-
-      success.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    },
-    true
-  );
 })();
