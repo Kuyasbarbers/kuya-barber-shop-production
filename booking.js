@@ -1,195 +1,290 @@
 /* Kuya's Barber Shop - Booking System */
 
 (function () {
+  "use strict";
+
   const STORAGE_KEY = "kuyaBarberAppointments";
 
-  const formArea = document.getElementById("formArea");
-  const success = document.getElementById("success");
+  const form = document.getElementById("bookingForm");
+  const success = document.getElementById("bookingSuccess");
 
-  const nameInput = document.getElementById("name");
-  const phoneInput = document.getElementById("phone");
+  if (!form) {
+    console.error("Kuya's Barber Shop: bookingForm was not found.");
+    return;
+  }
+
+  const nameInput = document.getElementById("customerName");
+  const phoneInput = document.getElementById("customerPhone");
   const branchInput = document.getElementById("branch");
   const serviceInput = document.getElementById("service");
-  const dateInput = document.getElementById("date");
-  const timeInput = document.getElementById("time");
+  const dateInput = document.getElementById("bookingDate");
+  const timeInput = document.getElementById("bookingTime");
   const barberInput = document.getElementById("barber");
 
-  if (!formArea || !success) return;
-
-  /* Prevent customers from selecting a past date */
+  /*
+   * Prevent customers from selecting a past date.
+   */
   if (dateInput) {
     const today = new Date();
 
-    const localToday = new Date(
-      today.getTime() - today.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .split("T")[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
-    dateInput.min = localToday;
+    dateInput.min = `${year}-${month}-${day}`;
   }
 
-  function getBookings() {
+  /*
+   * Get saved appointments.
+   */
+  function getAppointments() {
     try {
-      return JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "[]"
-      );
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     } catch (error) {
+      console.error("Unable to read appointments:", error);
       return [];
     }
   }
 
-  function saveBooking(booking) {
-    const bookings = getBookings();
-
-    bookings.push(booking);
-
+  /*
+   * Save appointments.
+   */
+  function saveAppointments(appointments) {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(bookings)
+      JSON.stringify(appointments)
     );
   }
 
-  function formatDate(value) {
-    const date = new Date(value + "T00:00:00");
+  /*
+   * Create a simple booking reference number.
+   */
+  function createBookingReference() {
+    const now = Date.now();
+    const random = Math.floor(1000 + Math.random() * 9000);
+
+    return `KBS-${now.toString().slice(-6)}-${random}`;
+  }
+
+  /*
+   * Format date for the confirmation message.
+   */
+  function formatDate(dateValue) {
+    const date = new Date(dateValue + "T00:00:00");
 
     return date.toLocaleDateString("en-PH", {
+      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric"
     });
   }
 
-  function showMessage(message, isError) {
-    success.innerHTML = message;
+  /*
+   * Format time.
+   */
+  function formatTime(timeValue) {
+    if (!timeValue) return "";
 
-    success.style.display = "block";
+    const parts = timeValue.split(":");
 
-    if (isError) {
-      success.style.background = "#ffe8e8";
-      success.style.color = "#8b1e1e";
-    } else {
-      success.style.background = "#e8f7e8";
-      success.style.color = "#145c20";
-    }
+    let hour = parseInt(parts[0], 10);
+    const minute = parts[1] || "00";
+
+    const period = hour >= 12 ? "PM" : "AM";
+
+    hour = hour % 12 || 12;
+
+    return `${hour}:${minute} ${period}`;
   }
 
-  window.submitBook = function () {
+  /*
+   * Check whether the selected time is already booked.
+   *
+   * Same branch + same date + same time + same barber
+   * will be treated as unavailable.
+   */
+  function isAlreadyBooked(branch, date, time, barber) {
+    const appointments = getAppointments();
 
-    const name = nameInput
-      ? nameInput.value.trim()
-      : "";
+    return appointments.some(function (appointment) {
+      return (
+        appointment.branch === branch &&
+        appointment.date === date &&
+        appointment.time === time &&
+        appointment.barber === barber
+      );
+    });
+  }
 
-    const phone = phoneInput
-      ? phoneInput.value.trim()
-      : "";
+  /*
+   * Submit booking.
+   */
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    const branch = branchInput
-      ? branchInput.value
-      : "";
+    const name = nameInput ? nameInput.value.trim() : "";
+    const phone = phoneInput ? phoneInput.value.trim() : "";
+    const branch = branchInput ? branchInput.value : "";
+    const service = serviceInput ? serviceInput.value : "";
+    const date = dateInput ? dateInput.value : "";
+    const time = timeInput ? timeInput.value : "";
+    const barber = barberInput ? barberInput.value : "";
 
-    const service = serviceInput
-      ? serviceInput.value
-      : "";
+    /*
+     * Basic validation.
+     */
+    if (
+      !name ||
+      !phone ||
+      !branch ||
+      !service ||
+      !date ||
+      !time ||
+      !barber
+    ) {
+      alert("Please complete all booking details.");
+      return;
+    }
 
-    const date = dateInput
-      ? dateInput.value
-      : "";
+    /*
+     * Prevent past dates.
+     */
+    const selectedDate = new Date(date + "T00:00:00");
+    const today = new Date();
 
-    const time = timeInput
-      ? timeInput.value
-      : "";
+    today.setHours(0, 0, 0, 0);
 
-    const barber = barberInput
-      ? barberInput.value || "Any Available Barber"
-      : "Any Available Barber";
+    if (selectedDate < today) {
+      alert("Please select today or a future date.");
+      return;
+    }
 
-    /* Required fields */
-    if (!name || !phone || !date || !time) {
-      showMessage(
-        "⚠️ Please complete your name, mobile number, date and time.",
-        true
+    /*
+     * Check duplicate booking.
+     */
+    if (isAlreadyBooked(branch, date, time, barber)) {
+      alert(
+        "Sorry, this time slot is already booked for the selected barber. Please choose another time."
       );
       return;
     }
 
-    /* Philippine mobile number validation */
-    const cleanPhone = phone.replace(/[\s-]/g, "");
-
-    if (!/^09\d{9}$/.test(cleanPhone)) {
-      showMessage(
-        "⚠️ Please enter a valid Philippine mobile number (09XXXXXXXXX).",
-        true
-      );
-      return;
-    }
-
-    /* Create booking reference */
-    const booking = {
-      id:
-        "KBS-" +
-        Date.now()
-          .toString(36)
-          .toUpperCase(),
+    /*
+     * Create appointment.
+     */
+    const appointment = {
+      id: Date.now(),
+      reference: createBookingReference(),
 
       name: name,
-      phone: cleanPhone,
+      phone: phone,
+
       branch: branch,
       service: service,
+
       date: date,
       time: time,
+
       barber: barber,
-      status: "Pending",
+
       createdAt: new Date().toISOString()
     };
 
-    /* Prevent duplicate booking */
-    const duplicate = getBookings().some(function (item) {
-      return (
-        item.branch === booking.branch &&
-        item.date === booking.date &&
-        item.time === booking.time &&
-        item.barber === booking.barber
-      );
-    });
+    /*
+     * Save appointment.
+     */
+    const appointments = getAppointments();
 
-    if (duplicate) {
-      showMessage(
-        "⚠️ This time slot is already booked on this device. Please choose another time.",
-        true
-      );
-      return;
+    appointments.push(appointment);
+
+    saveAppointments(appointments);
+
+    /*
+     * Show confirmation.
+     */
+    if (success) {
+      success.innerHTML = `
+        <div class="booking-success-message">
+          <div class="success-icon">✓</div>
+
+          <div>
+            <strong>Thank you, ${escapeHtml(name)}!</strong>
+
+            <p>
+              Your appointment at
+              <strong>${escapeHtml(branch)}</strong>
+              on
+              <strong>${formatDate(date)}</strong>
+              at
+              <strong>${formatTime(time)}</strong>
+              has been received.
+            </p>
+
+            <p>
+              <strong>Service:</strong>
+              ${escapeHtml(service)}
+            </p>
+
+            <p>
+              <strong>Barber:</strong>
+              ${escapeHtml(barber)}
+            </p>
+
+            <p>
+              <strong>Booking Reference:</strong>
+              ${escapeHtml(appointment.reference)}
+            </p>
+
+            <small>
+              Please keep your booking reference for your records.
+            </small>
+          </div>
+        </div>
+      `;
+
+      success.style.display = "block";
+
+      success.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
     }
 
-    /* Save appointment */
-    saveBooking(booking);
+    /*
+     * Reset the form after successful booking.
+     */
+    form.reset();
 
-    /* Hide form */
-    formArea.style.display = "none";
+    /*
+     * Restore today's minimum date after reset.
+     */
+    if (dateInput) {
+      const currentDate = new Date();
 
-    /* Show confirmation */
-    showMessage(
-      "✅ <strong>Booking Received!</strong><br><br>" +
-      "Reference: <strong>" + booking.id + "</strong><br><br>" +
-      "Thank you, " + booking.name + "!<br>" +
-      "Your <strong>" + booking.service + "</strong> appointment at " +
-      "<strong>" + booking.branch + "</strong><br>" +
-      "is requested for <strong>" +
-      formatDate(booking.date) +
-      "</strong> at <strong>" +
-      booking.time +
-      "</strong>.<br><br>" +
-      "Preferred Barber: <strong>" +
-      booking.barber +
-      "</strong><br><br>" +
-      "<small>Your booking has been saved successfully.</small>",
-      false
-    );
+      const year = currentDate.getFullYear();
+      const month = String(
+        currentDate.getMonth() + 1
+      ).padStart(2, "0");
 
-    success.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-  };
+      const day = String(
+        currentDate.getDate()
+      ).padStart(2, "0");
+
+      dateInput.min = `${year}-${month}-${day}`;
+    }
+  });
+
+  /*
+   * Prevent HTML injection in customer-provided information.
+   */
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
 })();
