@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,484 +6,361 @@
 
   <title>Kuya's Barber Shop</title>
 
+  <!-- Your existing stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- =========================
+       HEADER / NAVIGATION
+  ========================== -->
+  <header>
+    <nav class="navbar">
 
-  <header class="navbar">
+      <a href="#home" class="logo">
+        <span class="logo-circle">K</span>
 
-    <div class="logo">
-      <div class="logo-circle">K</div>
+        <span class="logo-text">
+          <strong>KUYA'S</strong>
+          <small>BARBER SHOP</small>
+        </span>
+      </a>
 
-      <div>
-        <strong>KUYA'S</strong>
-        <span>BARBER SHOP</span>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#branches">Branches</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#booking" class="book-btn">Book Now</a>
       </div>
-    </div>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#branches">Branches</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#booking" class="nav-book">Book Now</a>
     </nav>
-
   </header>
 
 
-  <!-- ================= HERO ================= -->
-
+  <!-- =========================
+       HOME
+  ========================== -->
   <main>
 
-    <section class="hero" id="home">
-
-      <div class="hero-overlay"></div>
+    <section id="home" class="hero">
 
       <div class="hero-content">
-
-        <p class="eyebrow">
-          PROFESSIONAL GROOMING
-        </p>
-
-        <h1>
-          LOOK<br>
-          <span>SHARP.</span>
-        </h1>
-
-        <p class="hero-description">
-          Your grooming home for quality haircuts,
-          modern styles and professional barber services.
-        </p>
-
-        <div class="hero-buttons">
-
-          <a href="#booking" class="btn-primary">
-            BOOK AN APPOINTMENT
-          </a>
-
-          <a href="#services" class="btn-outline">
-            VIEW SERVICES
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= BRANCHES ================= -->
-
-    <section class="section branches" id="branches">
-
-      <div class="section-heading">
-
-        <p>CHOOSE YOUR LOCATION</p>
-
-        <h2>Our Branches</h2>
-
-      </div>
-
-
-      <div class="branch-container">
-
-        <!-- GOA -->
-
-        <article class="branch-card">
-
-          <div class="branch-icon">
-            📍
-          </div>
-
-          <h3>Goa Branch</h3>
-
-          <p>
-            Visit our Goa branch and experience
-            professional grooming from our barber artists.
-          </p>
-
-          <button
-            class="branch-button"
-            onclick="chooseBranch('Goa Branch')">
-
-            BOOK GOA
-
-          </button>
-
-        </article>
-
-
-        <!-- TIGAO -->
-
-        <article class="branch-card">
-
-          <div class="branch-icon">
-            📍
-          </div>
-
-          <h3>Tigaon Branch</h3>
-
-          <p>
-            Get your favorite haircut and grooming
-            service at our Tigaon branch.
-          </p>
-
-          <button
-            class="branch-button"
-            onclick="chooseBranch('Tigaon Branch')">
-
-            BOOK TIGAO
-
-          </button>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= SERVICES ================= -->
-
-    <section class="section services" id="services">
-
-      <div class="section-heading">
-
-        <p>WHAT WE OFFER</p>
-
-        <h2>Our Services</h2>
-
-      </div>
-
-
-      <div class="services-grid">
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            ✂️
-          </div>
-
-          <h3>Haircut</h3>
-
-          <p>
-            Professional haircut customized
-            to your preferred style.
-          </p>
-
-        </div>
-
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            💈
-          </div>
-
-          <h3>Fade</h3>
-
-          <p>
-            Clean fades and modern barber
-            styles performed by our artists.
-          </p>
-
-        </div>
-
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            🧔
-          </div>
-
-          <h3>Beard Grooming</h3>
-
-          <p>
-            Beard trimming, shaping and
-            professional grooming.
-          </p>
-
-        </div>
-
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            🪒
-          </div>
-
-          <h3>Shave</h3>
-
-          <p>
-            Enjoy a clean and refreshing
-            barber shave experience.
-          </p>
-
-        </div>
-
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            ⭐
-          </div>
-
-          <h3>Premium Grooming</h3>
-
-          <p>
-            Complete grooming service
-            for a premium experience.
-          </p>
-
-        </div>
-
-
-        <div class="service-card">
-
-          <div class="service-icon">
-            🔥
-          </div>
-
-          <h3>Hair Styling</h3>
-
-          <p>
-            Professional styling for your
-            desired finished look.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= ABOUT ================= -->
-
-    <section class="about" id="about">
-
-      <div class="about-image">
-
-        <img
-          src="images/about.jpg"
-          alt="Kuya's Barber Shop">
-
-      </div>
-
-
-      <div class="about-content">
-
-        <p class="eyebrow">
-          ABOUT KUYA'S
-        </p>
-
-        <h2>
-          YOUR<br>
-          GROOMING HOME.
-        </h2>
+        <h1>KUYA'S BARBER SHOP</h1>
 
         <p>
-          Kuya's Barber Shop is dedicated to providing
-          quality grooming services in a comfortable,
-          friendly and professional environment.
+          Professional Grooming.<br>
+          Quality Service.<br>
+          Your Grooming Home.
         </p>
 
-        <p>
-          From classic haircuts to modern fades and
-          premium grooming, our barber artists are ready
-          to give you the look you want.
-        </p>
-
-        <a href="#booking" class="btn-primary">
-          BOOK YOUR VISIT
+        <a href="#booking" class="book-btn">
+          BOOK AN APPOINTMENT
         </a>
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         BRANCHES
+    ========================== -->
+    <section id="branches" class="section">
+
+      <h2>Our Branches</h2>
+
+      <div class="cards">
+
+        <div class="card">
+          <h3>Goa Branch</h3>
+          <p>
+            Visit Kuya's Barber Shop Goa Branch
+            for professional grooming services.
+          </p>
+
+          <button
+            type="button"
+            onclick="chooseBranch('Goa Branch')">
+            BOOK GOA BRANCH
+          </button>
+        </div>
+
+
+        <div class="card">
+          <h3>Tigaon Branch</h3>
+          <p>
+            Experience quality grooming and
+            excellent service at our Tigaon Branch.
+          </p>
+
+          <button
+            type="button"
+            onclick="chooseBranch('Tigaon Branch')">
+            BOOK TIGAON BRANCH
+          </button>
+        </div>
 
       </div>
 
     </section>
 
 
-    <!-- ================= BOOKING ================= -->
+    <!-- =========================
+         SERVICES
+    ========================== -->
+    <section id="services" class="section">
 
-    <section class="section booking" id="booking">
+      <h2>Our Services</h2>
 
-      <div class="section-heading">
+      <div class="cards">
 
-        <p>RESERVE YOUR SEAT</p>
+        <div class="card">
+          <h3>Haircut</h3>
+          <p>Professional men's haircut and grooming.</p>
+        </div>
 
-        <h2>Book an Appointment</h2>
+        <div class="card">
+          <h3>Hair Color</h3>
+          <p>Professional hair coloring services.</p>
+        </div>
+
+        <div class="card">
+          <h3>Hair Treatment</h3>
+          <p>Premium treatments for healthier hair.</p>
+        </div>
+
+        <div class="card">
+          <h3>Hair Rebonding</h3>
+          <p>Straightening and smoothing services.</p>
+        </div>
+
+        <div class="card">
+          <h3>Hair Perming</h3>
+          <p>Professional styling and perm services.</p>
+        </div>
+
+        <div class="card">
+          <h3>Scalp Treatment</h3>
+          <p>Relaxing and professional scalp care.</p>
+        </div>
 
       </div>
 
+    </section>
 
-      <div class="booking-box">
 
+    <!-- =========================
+         ABOUT
+    ========================== -->
+    <section id="about" class="section about-section">
+
+      <h2>About Kuya's Barber Shop</h2>
+
+      <p>
+        Kuya's Barber Shop is committed to providing
+        professional grooming, quality service,
+        and a comfortable experience for every customer.
+      </p>
+
+      <p>
+        Your grooming. Your style. Your confidence.
+      </p>
+
+    </section>
+
+
+    <!-- =========================
+         BOOKING
+    ========================== -->
+    <section id="booking" class="booking-section">
+
+      <div class="booking-container">
+
+        <h2>Book Your Appointment</h2>
+
+        <p class="booking-subtitle">
+          Choose your branch, service, date, time,
+          and preferred barber.
+        </p>
+
+
+        <!-- IMPORTANT:
+             DO NOT REMOVE THIS ID
+        -->
         <form id="bookingForm">
 
-          <!-- NAME -->
+          <!-- FULL NAME + MOBILE -->
+          <div class="form-row">
 
-          <div class="form-group">
+            <div class="form-group">
+              <label for="customerName">
+                Full Name
+              </label>
 
-            <label>
-              Full Name
-            </label>
-
-            <input
-              type="text"
-              id="customerName"
-              placeholder="Enter your name"
-              required>
-
-          </div>
-
-
-          <!-- PHONE -->
-
-          <div class="form-group">
-
-            <label>
-              Mobile Number
-            </label>
-
-            <input
-              type="tel"
-              id="customerPhone"
-              placeholder="09XXXXXXXXX"
-              required>
-
-          </div>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                placeholder="Enter your name"
+                required>
+            </div>
 
 
-          <!-- BRANCH -->
+            <div class="form-group">
+              <label for="customerPhone">
+                Mobile Number
+              </label>
 
-          <div class="form-group">
-
-            <label>
-              Branch
-            </label>
-
-            <select id="branch" required>
-
-              <option value="">
-                Select Branch
-              </option>
-
-              <option value="Goa Branch">
-                Goa Branch
-              </option>
-
-              <option value="Tigaon Branch">
-                Tigaon Branch
-              </option>
-
-            </select>
+              <input
+                type="tel"
+                id="customerPhone"
+                name="customerPhone"
+                placeholder="09XXXXXXXXX"
+                maxlength="11"
+                required>
+            </div>
 
           </div>
 
 
-          <!-- SERVICE -->
+          <!-- BRANCH + SERVICE -->
+          <div class="form-row">
 
-          <div class="form-group">
+            <div class="form-group">
 
-            <label>
-              Service
-            </label>
+              <label for="branch">
+                Branch
+              </label>
 
-            <select id="service" required>
+              <select
+                id="branch"
+                name="branch"
+                required>
 
-              <option value="">
-                Select Service
-              </option>
+                <option value="">
+                  Select Branch
+                </option>
 
-              <option value="Haircut">
-                Haircut
-              </option>
+                <option value="Goa Branch">
+                  Goa Branch
+                </option>
 
-              <option value="Fade">
-                Fade
-              </option>
+                <option value="Tigaon Branch">
+                  Tigaon Branch
+                </option>
 
-              <option value="Beard Grooming">
-                Beard Grooming
-              </option>
+              </select>
 
-              <option value="Shave">
-                Shave
-              </option>
+            </div>
 
-              <option value="Hair Styling">
-                Hair Styling
-              </option>
 
-              <option value="Premium Grooming">
-                Premium Grooming
-              </option>
+            <div class="form-group">
 
-            </select>
+              <label for="service">
+                Service
+              </label>
+
+              <select
+                id="service"
+                name="service"
+                required>
+
+                <option value="">
+                  Select Service
+                </option>
+
+                <option value="Haircut">
+                  Haircut
+                </option>
+
+                <option value="Hair Color">
+                  Hair Color
+                </option>
+
+                <option value="Hair Treatment">
+                  Hair Treatment
+                </option>
+
+                <option value="Hair Rebonding">
+                  Hair Rebonding
+                </option>
+
+                <option value="Hair Perming">
+                  Hair Perming
+                </option>
+
+                <option value="Scalp Treatment">
+                  Scalp Treatment
+                </option>
+
+              </select>
+
+            </div>
 
           </div>
 
 
-          <!-- DATE -->
+          <!-- DATE + TIME -->
+          <div class="form-row">
 
-          <div class="form-group">
+            <div class="form-group">
 
-            <label>
-              Date
-            </label>
+              <label for="bookingDate">
+                Date
+              </label>
 
-            <input
-              type="date"
-              id="bookingDate"
-              required>
+              <input
+                type="date"
+                id="bookingDate"
+                name="bookingDate"
+                required>
 
-          </div>
+            </div>
 
 
-          <!-- TIME -->
+            <div class="form-group">
 
-          <div class="form-group">
+              <label for="bookingTime">
+                Time
+              </label>
 
-            <label>
-              Time
-            </label>
+              <input
+                type="time"
+                id="bookingTime"
+                name="bookingTime"
+                required>
 
-            <input
-              type="time"
-              id="bookingTime"
-              required>
+            </div>
 
           </div>
 
 
           <!-- BARBER -->
+          <div class="form-group">
 
-          <div class="form-group full">
-
-            <label>
+            <label for="barber">
               Preferred Barber
             </label>
 
-            <select id="barber">
+            <select
+              id="barber"
+              name="barber">
 
-              <option value="">
+              <option value="Any Available Barber">
                 Any Available Barber
               </option>
 
-              <option value="Barber Artist 1">
-                Barber Artist 1
+              <option value="Kuya Kulot">
+                Kuya Kulot
               </option>
 
-              <option value="Barber Artist 2">
-                Barber Artist 2
+              <option value="Mark">
+                Mark
               </option>
 
-              <option value="Barber Artist 3">
-                Barber Artist 3
+              <option value="Jeric">
+                Jeric
               </option>
 
             </select>
@@ -492,9 +368,10 @@
           </div>
 
 
+          <!-- SUBMIT -->
           <button
             type="submit"
-            class="submit-button">
+            class="confirm-btn">
 
             CONFIRM APPOINTMENT
 
@@ -503,13 +380,52 @@
         </form>
 
 
+        <!-- SUCCESS MESSAGE
+             IMPORTANT ID
+        -->
         <div
           id="bookingSuccess"
-          class="booking-success">
+          class="booking-success"
+          style="display:none;">
 
-          Appointment request received!
+          <span>✅</span>
+
+          <span id="successMessage"></span>
 
         </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CHARITY OUTREACH
+    ========================== -->
+    <section
+      id="charity"
+      class="charity-section">
+
+      <h2>Kuya's Charity Outreach</h2>
+
+      <p>
+        Giving back to the community through
+        kindness, service, and compassion.
+      </p>
+
+      <div class="charity-gallery">
+
+        <img
+          src="imagescharity-outreach/charity1.jpg"
+          alt="Kuya's Charity Outreach">
+
+        <img
+          src="imagescharity-outreach/charity2.jpg"
+          alt="Kuya's Charity Outreach">
+
+        <img
+          src="imagescharity-outreach/charity3.jpg"
+          alt="Kuya's Charity Outreach">
 
       </div>
 
@@ -518,39 +434,35 @@
   </main>
 
 
-  <!-- ================= FOOTER ================= -->
-
+  <!-- =========================
+       FOOTER
+  ========================== -->
   <footer>
 
     <div class="footer-content">
 
       <div>
-
         <div class="footer-logo">
           KUYA'S BARBER SHOP
         </div>
 
         <p>
-          Professional grooming.
-          Quality service.
+          Professional grooming.<br>
+          Quality service.<br>
           Your grooming home.
         </p>
-
       </div>
 
 
       <div>
-
         <h3>Branches</h3>
 
         <p>Goa Branch</p>
         <p>Tigaon Branch</p>
-
       </div>
 
 
       <div>
-
         <h3>Quick Links</h3>
 
         <p>
@@ -572,48 +484,350 @@
 
     <div class="copyright">
 
-      © 2026 Kuya's Barber Shop.
+      © 2026 Kuya's Barber Shop.<br>
       All Rights Reserved.
 
     </div>
 
   </footer>
 
-<!-- ================= CHARITY OUTREACH ================= -->
-<section id="charity" class="charity-section">
 
-    <h2>Kuya's Charity Outreach</h2>
+  <!-- =========================
+       BOOKING JAVASCRIPT
+       NO booking.js NEEDED
+  ========================== -->
+  <script>
 
-    <p>
-        Giving back to the community through kindness, service, and compassion.
-    </p>
+    "use strict";
 
-    <div class="charity-gallery">
 
-        <img src="imagescharity-outreach/20d2fb86-cb83-443f-a64a-779d4c95c11e.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/26e88da5-0232-4b10-98e8-78c8e1174487.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/3470eab8-d7df-421d-8309-20dce2ba3f43.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/4439c0d0-90b7-4c1a-b813-3c4ce9d22e8c.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/4b748e29-7c44-4e8f-8253-c2a06c6f053b.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/557f3ad5-b799-44a6-8cfd-0b2dc7613438.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/70cb6cc5-92f0-4d60-979b-46cfed435b2d.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/87d6f622-78d8-4fa4-8465-ff361cfa8c1b.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/8dc74037-cf9b-4471-96f1-f93e4f6c9485.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/9d27a865-cca8-4181-9bad-b9562f131bf7.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/ad33bda0-92e2-415a-94ab-d5d6b49a5d46.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/b2aaf197-b506-466f-8a2a-b0bab526eb8e.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/b3c977d1-e729-40fe-843b-d27b26042f2c.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/b4c792f0-fc11-4011-a5b1-b51691ee8e06.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/bc24ed83-e1f7-4ef0-8fe8-bdfd82080473.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/d37cb3a1-1ef1-46a4-9ba0-50fad73c8cc8.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/d4535a95-5ee7-4c80-9bd3-f02083b090a3.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/f135c519-4f14-4a4e-90ff-d31e511e4115.jfif" alt="Kuya's Charity Outreach">
-        <img src="imagescharity-outreach/ff77ef14-243a-42f1-862c-48ce5df72b87.jfif" alt="Kuya's Charity Outreach">
+    /* =========================
+       SETTINGS
+    ========================== */
 
-    </div>
+    const STORAGE_KEY = "kuyaBarberAppointments";
 
-</section>
-  <script src="booking.js"></script>
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
+    const form =
+      document.getElementById("bookingForm");
+
+    const success =
+      document.getElementById("bookingSuccess");
+
+    const successMessage =
+      document.getElementById("successMessage");
+
+    const nameInput =
+      document.getElementById("customerName");
+
+    const phoneInput =
+      document.getElementById("customerPhone");
+
+    const branchInput =
+      document.getElementById("branch");
+
+    const serviceInput =
+      document.getElementById("service");
+
+    const dateInput =
+      document.getElementById("bookingDate");
+
+    const timeInput =
+      document.getElementById("bookingTime");
+
+    const barberInput =
+      document.getElementById("barber");
+
+
+    /* =========================
+       SET MINIMUM DATE
+    ========================== */
+
+    const today =
+      new Date().toISOString().split("T")[0];
+
+    dateInput.min = today;
+
+
+    /* =========================
+       BRANCH SELECTION
+    ========================== */
+
+    function chooseBranch(branchName) {
+
+      branchInput.value = branchName;
+
+      document
+        .getElementById("booking")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================
+       PHONE NUMBER
+    ========================== */
+
+    phoneInput.addEventListener(
+      "input",
+      function () {
+
+        this.value =
+          this.value.replace(/\D/g, "");
+
+      }
+    );
+
+
+    /* =========================
+       BOOKING SUBMIT
+    ========================== */
+
+    form.addEventListener(
+      "submit",
+      function (event) {
+
+        event.preventDefault();
+
+
+        const name =
+          nameInput.value.trim();
+
+        const phone =
+          phoneInput.value.trim();
+
+        const branch =
+          branchInput.value;
+
+        const service =
+          serviceInput.value;
+
+        const date =
+          dateInput.value;
+
+        const time =
+          timeInput.value;
+
+        const barber =
+          barberInput.value;
+
+
+        /* =========================
+           VALIDATION
+        ========================== */
+
+        if (!name) {
+
+          alert("Please enter your full name.");
+
+          nameInput.focus();
+
+          return;
+
+        }
+
+
+        if (!/^09\d{9}$/.test(phone)) {
+
+          alert(
+            "Please enter a valid Philippine mobile number.\nExample: 09123456789"
+          );
+
+          phoneInput.focus();
+
+          return;
+
+        }
+
+
+        if (!branch) {
+
+          alert("Please select a branch.");
+
+          branchInput.focus();
+
+          return;
+
+        }
+
+
+        if (!service) {
+
+          alert("Please select a service.");
+
+          serviceInput.focus();
+
+          return;
+
+        }
+
+
+        if (!date) {
+
+          alert("Please select an appointment date.");
+
+          dateInput.focus();
+
+          return;
+
+        }
+
+
+        if (!time) {
+
+          alert("Please select an appointment time.");
+
+          timeInput.focus();
+
+          return;
+
+        }
+
+
+        /* =========================
+           DATE FORMAT
+        ========================== */
+
+        const selectedDate =
+          new Date(date + "T00:00:00");
+
+        const formattedDate =
+          selectedDate.toLocaleDateString(
+            "en-PH",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit"
+            }
+          );
+
+
+        /* =========================
+           TIME FORMAT
+        ========================== */
+
+        const formattedTime =
+          new Date(
+            "1970-01-01T" + time
+          ).toLocaleTimeString(
+            "en-PH",
+            {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true
+            }
+          );
+
+
+        /* =========================
+           APPOINTMENT OBJECT
+        ========================== */
+
+        const appointment = {
+
+          id: Date.now(),
+
+          name: name,
+
+          phone: phone,
+
+          branch: branch,
+
+          service: service,
+
+          date: date,
+
+          time: time,
+
+          barber: barber,
+
+          createdAt:
+            new Date().toISOString()
+
+        };
+
+
+        /* =========================
+           SAVE BOOKING
+        ========================== */
+
+        let appointments = [];
+
+        try {
+
+          appointments =
+            JSON.parse(
+              localStorage.getItem(
+                STORAGE_KEY
+              )
+            ) || [];
+
+        } catch (error) {
+
+          appointments = [];
+
+        }
+
+
+        appointments.push(appointment);
+
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(appointments)
+        );
+
+
+        /* =========================
+           SUCCESS MESSAGE
+        ========================== */
+
+        successMessage.textContent =
+          "Thank you, " +
+          name +
+          "! Your " +
+          service +
+          " appointment at " +
+          branch +
+          " on " +
+          formattedDate +
+          " at " +
+          formattedTime +
+          " has been received.";
+
+
+        success.style.display = "flex";
+
+
+        /* =========================
+           RESET FORM
+        ========================== */
+
+        form.reset();
+
+        dateInput.min = today;
+
+
+        /* =========================
+           SHOW SUCCESS
+        ========================== */
+
+        success.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      }
+    );
+
+
+  </script>
+
 </body>
 </html>
-```
