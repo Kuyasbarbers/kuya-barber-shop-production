@@ -641,7 +641,13 @@ firebase.auth().onAuthStateChanged(function(user) {
   loadAppointments();
 
 });
+/* REAL-TIME FIREBASE UPDATES */
 
+database
+  .ref("appointments")
+  .on("value", function() {
+    loadAppointments();
+  });
 </script>
 
 </body>
