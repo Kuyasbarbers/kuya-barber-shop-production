@@ -200,22 +200,41 @@
        KBS-123456-5821
        ======================================================= */
 
-    function createBookingReference() {
+   function createBookingReference() {
 
-      const now = Date.now();
+  const appointments = getAppointments();
 
-      const random =
-        Math.floor(
-          1000 + Math.random() * 9000
-        );
+  let highestNumber = 0;
 
-      return (
-        "KBS-" +
-        now.toString().slice(-6) +
-        "-" +
-        random
-      );
+  appointments.forEach(function (appointment) {
+
+    if (!appointment.reference) {
+      return;
     }
+
+    const match =
+      appointment.reference.match(/^KBS-(\d+)$/);
+
+    if (match) {
+
+      const number =
+        parseInt(match[1], 10);
+
+      if (number > highestNumber) {
+        highestNumber = number;
+      }
+    }
+
+  });
+
+  const nextNumber =
+    highestNumber + 1;
+
+  return (
+    "KBS-" +
+    String(nextNumber).padStart(3, "0")
+  );
+}
 
 
     /* =======================================================
