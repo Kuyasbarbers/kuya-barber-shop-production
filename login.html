@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kuya's Barber Shop - Admin Login</title>
+
+  <style>
+    :root {
+      --brown-dark: #21140e;
+      --brown: #4d2b1b;
+      --gold: #d5a04b;
+      --gold-light: #e8c477;
+      --cream: #f5eee5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: var(--cream);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 450px;
+      margin: 20px;
+      padding: 45px 35px;
+      background: var(--brown-dark);
+      border: 2px solid var(--gold);
+      border-radius: 22px;
+      box-shadow: 0 15px 40px rgba(33, 20, 14, 0.25);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo h1 {
+      margin: 0;
+      color: var(--gold-light);
+      font-size: 30px;
+      letter-spacing: 2px;
+    }
+
+    .logo p {
+      margin-top: 8px;
+      color: white;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: white;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #dfcfbd;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(213, 160, 75, 0.25);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: var(--gold);
+      color: var(--brown-dark);
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: var(--gold-light);
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #8b2e2e;
+      color: white;
+      text-align: center;
+    }
+
+    .back {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: var(--gold-light);
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <div class="logo">
+      <h1>KUYA'S BARBER SHOP</h1>
+      <p>Admin Login</p>
+    </div>
+
+
+    <form id="loginForm">
+
+      <label for="username">
+        Username
+      </label>
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Enter username"
+        required
+      >
+
+
+      <label for="password">
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+        required
+      >
+
+
+      <button
+        type="submit"
+        class="login-btn">
+        LOGIN
+      </button>
+
+      <div
+        id="errorMessage"
+        class="error">
+        Incorrect username or password.
+      </div>
+
+    </form>
+
+
+    <a
+      href="index.html"
+      class="back">
+      ← Back to Website
+    </a>
+
+  </div>
+
+
+  <script>
+
+    /*
+      ADMIN LOGIN
+    */
+
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "KuyaAdmin2026";
+
+
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const username =
+          document.getElementById("username").value.trim();
+
+        const password =
+          document.getElementById("password").value;
+
+
+        const errorMessage =
+          document.getElementById("errorMessage");
+
+
+        if (
+          username === ADMIN_USERNAME &&
+          password === ADMIN_PASSWORD
+        ) {
+
+          sessionStorage.setItem(
+            "kuyaAdminLoggedIn",
+            "true"
+          );
+
+          window.location.href = "admin.html";
+
+        } else {
+
+          errorMessage.style.display = "block";
+
+        }
+
+      });
+
+  </script>
+
+</body>
+</html>
