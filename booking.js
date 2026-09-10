@@ -2,6 +2,24 @@
    KUYA'S BARBER SHOP
    BOOKING SYSTEM
    ========================================================= */
+/* =========================================================
+   FIREBASE DATABASE
+   ========================================================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCBuLnVXhOJ0-5z0uM5yU8UHzJfNxIzNeE",
+  authDomain: "kuya-s-barber-shop.firebaseapp.com",
+  databaseURL: "https://kuya-s-barber-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "kuya-s-barber-shop",
+  storageBucket: "kuya-s-barber-shop.firebasestorage.app",
+  messagingSenderId: "254587285094",
+  appId: "1:254587285094:web:9d0de52d0d3bfc925947a7"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
 
 (function () {
   "use strict";
