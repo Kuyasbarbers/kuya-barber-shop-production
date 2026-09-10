@@ -367,29 +367,55 @@
   </main>
 
 
-  <script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCBuLnVXhOJ0-5z0uM5yU8UHzJfNxIzNeE",
+  authDomain: "kuya-s-barber-shop.firebaseapp.com",
+  databaseURL: "https://kuya-s-barber-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "kuya-s-barber-shop",
+  storageBucket: "kuya-s-barber-shop.firebasestorage.app",
+  messagingSenderId: "254587285094",
+  appId: "1:254587285094:web:9d0de52d0d3bfc925947a7"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+</script>
+
+<script>
 
     const STORAGE_KEY = "kuyaBarberAppointments";
 
 
-    function loadAppointments() {
+   async function loadAppointments() {
 
       const table = document.getElementById("appointmentTable");
 
       let appointments = [];
 
-      try {
+    try {
+  const snapshot = await database
+    .ref("appointments")
+    .once("value");
 
-        appointments =
-          JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
-          ) || [];
+  const data = snapshot.val();
 
-      } catch (error) {
+  appointments = data
+    ? Object.values(data)
+    : [];
 
-        appointments = [];
+} catch (error) {
+  console.error(
+    "Unable to load appointments:",
+    error
+  );
 
-      }
+  appointments = [];
+}
 
 
       /* SORT NEWEST FIRST */
