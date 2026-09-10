@@ -352,6 +352,7 @@
             <th>Date</th>
             <th>Time</th>
             <th>Barber</th>
+            <th>Status</th>
           </tr>
 
         </thead>
@@ -542,7 +543,14 @@ const database = firebase.database();
           <td>
             ${safe(item.barber)}
           </td>
-
+          <td>
+  <select class="status-select" onchange="updateAppointmentStatus('${safe(item.bookingReference || item.reference)}', this.value)">
+    <option value="Pending">Pending</option>
+    <option value="Confirmed">Confirmed</option>
+    <option value="Cancelled">Cancelled</option>
+    <option value="Completed">Completed</option>
+  </select>
+</td>
         `;
 
         table.appendChild(row);
@@ -642,7 +650,44 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 });
 /* REAL-TIME FIREBASE UPDATES */
+async function updateAppointmentStatus(reference, status) {
 
+  try {
+
+    const snapshot = await database
+      .ref("appointments")
+      .once("value");
+
+    const data = snapshot.val();
+
+    if (!data) return;
+
+    Object.keys(data).forEach(function(key) {
+
+      const item = data[key];
+
+      if (
+        (item.bookingReference || item.reference) === reference
+      ) {
+
+        database
+          .ref("appointments/" + key + "/status")
+          .set(status);
+
+      }
+
+    });
+
+  } catch (error) {
+
+    console.error(
+      "Unable to update appointment status:",
+      error
+    );
+
+  }
+
+}
 database
   .ref("appointments")
   .on("value", function() {
