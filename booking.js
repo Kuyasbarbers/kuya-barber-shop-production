@@ -290,7 +290,49 @@ const staffSchedules = {
   }
 
 };
+/* =======================================================
+   CHECK STAFF AVAILABILITY
+   ======================================================= */
 
+function isStaffAvailable(staff, date, time) {
+
+  if (
+    !staff ||
+    staff === "Any Available Staff"
+  ) {
+    return true;
+  }
+
+  const schedule =
+    staffSchedules[staff];
+
+  if (!schedule || !date || !time) {
+    return false;
+  }
+
+  const selectedDate =
+    new Date(date + "T00:00:00");
+
+  if (
+    Number.isNaN(
+      selectedDate.getTime()
+    )
+  ) {
+    return false;
+  }
+
+  const day =
+    selectedDate.getDay();
+
+  if (!schedule.days.includes(day)) {
+    return false;
+  }
+
+  return (
+    time >= schedule.start &&
+    time <= schedule.end
+  );
+}
     function updateStaffBySelection() {
 
       if (!barberInput || !branchInput || !serviceInput) {
@@ -343,6 +385,27 @@ const staffSchedules = {
         }
 
       }
+           /* Filter staff based on selected date and time */
+
+    if (
+      dateInput &&
+      timeInput &&
+      dateInput.value &&
+      timeInput.value
+    ) {
+
+      availableStaff =
+        availableStaff.filter(function (staff) {
+
+          return isStaffAvailable(
+            staff,
+            dateInput.value,
+            timeInput.value
+          );
+
+        });
+
+    }
 
       barberInput.innerHTML = "";
 
@@ -392,10 +455,25 @@ const staffSchedules = {
 
     /* Update staff when service changes */
 
-    serviceInput.addEventListener(
-      "change",
-      updateStaffBySelection
-    );
+  serviceInput.addEventListener(
+  "change",
+  updateStaffBySelection
+);
+
+
+/* Update staff when date changes */
+
+dateInput.addEventListener(
+  "change",
+  updateStaffBySelection
+);
+
+/* Update staff when time changes */
+
+timeInput.addEventListener(
+  "change",
+  updateStaffBySelection
+);
 
     /* =======================================================
        GET SAVED APPOINTMENTS
