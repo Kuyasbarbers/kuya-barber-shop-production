@@ -140,7 +140,32 @@
       color: white;
     }
 
-    /* TABLE */
+    /* TABLE */,    /* FILTERS */
+
+    .filters {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .filter-input,
+    .filter-select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #dfcfbd;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--brown-dark);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(213, 160, 75, 0.15);
+    }
     .table-box {
       background: var(--white);
       border: 1px solid #dfcfbd;
@@ -201,7 +226,9 @@
       .stats {
         grid-template-columns: 1fr;
       }
-
+    .filters {
+      grid-template-columns: 1fr;
+    }
       .container {
         padding: 0 12px;
       }
@@ -285,7 +312,30 @@
 
     </div>
 
+    <!-- SEARCH AND FILTER -->
 
+    <div class="filters">
+
+      <input
+        type="search"
+        id="customerSearch"
+        class="filter-input"
+        placeholder="Search customer, mobile, or reference..."
+      >
+
+      <select
+        id="branchFilter"
+        class="filter-select">
+
+        <option value="all">All Branches</option>
+        <option value="Goa Branch">Goa Branch</option>
+        <option value="Tigaon Branch">Tigaon Branch</option>
+
+      </select>
+
+    </div>
+
+    
     <!-- APPOINTMENT TABLE -->
     <div class="table-box">
 
@@ -348,6 +398,41 @@
 
         return new Date(b.createdAt || 0)
           - new Date(a.createdAt || 0);
+
+      });,      /* SEARCH AND BRANCH FILTER */
+
+      const searchInput =
+        document.getElementById("customerSearch");
+
+      const branchFilter =
+        document.getElementById("branchFilter");
+
+      const searchTerm =
+        searchInput.value.trim().toLowerCase();
+
+      const selectedBranch =
+        branchFilter.value;
+
+      appointments = appointments.filter(function(item) {
+
+        const searchableText = [
+          item.fullName,
+          item.mobile,
+          item.bookingReference
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+        const matchesSearch =
+          !searchTerm ||
+          searchableText.includes(searchTerm);
+
+        const matchesBranch =
+          selectedBranch === "all" ||
+          item.branch === selectedBranch;
+
+        return matchesSearch && matchesBranch;
 
       });
 
@@ -484,6 +569,20 @@
       alert("All appointments have been cleared.");
 
     }
+
+
+       /* SEARCH CUSTOMER */
+
+    document
+      .getElementById("customerSearch")
+      .addEventListener("input", loadAppointments);
+
+
+    /* FILTER BRANCH */
+
+    document
+      .getElementById("branchFilter")
+      .addEventListener("change", loadAppointments);
 
 
     /* LOAD WHEN PAGE OPENS */
