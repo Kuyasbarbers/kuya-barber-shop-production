@@ -545,31 +545,46 @@ timeInput.addEventListener(
        SAVE APPOINTMENTS
        ======================================================= */
 
-    function saveAppointments(appointments) {
+    async function saveAppointments(appointments) {
 
-      try {
+  try {
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(appointments)
-        );
-
-        return true;
-
-      } catch (error) {
-
-        console.error(
-          "Unable to save appointment:",
-          error
-        );
-
-        alert(
-          "Unable to save your appointment. Please try again."
-        );
-
-        return false;
-      }
+    /* Make sure the customer is authenticated */
+    if (!firebase.auth().currentUser) {
+      await firebase.auth().signInAnonymously();
     }
+
+    /* Keep the local copy for now */
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(appointments)
+    );
+
+    /* Get the newest appointment */
+    const appointment =
+      appointments[appointments.length - 1];
+
+    /* Save the newest appointment to Firebase */
+    await database
+      .ref("appointments")
+      .push(appointment);
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Unable to save appointment:",
+      error
+    );
+
+    alert(
+      "Unable to save your appointment. Please try again."
+    );
+
+    return false;
+  }
+}
 
 
     /* =======================================================
@@ -744,7 +759,7 @@ timeInput.addEventListener(
 
     form.addEventListener(
       "submit",
-      function (event) {
+      async function (event) {
 
         event.preventDefault();
 
@@ -928,7 +943,7 @@ timeInput.addEventListener(
            --------------------------------------------------- */
 
         const saved =
-          saveAppointments(
+          await saveAppointments(
             appointments
           );
 
