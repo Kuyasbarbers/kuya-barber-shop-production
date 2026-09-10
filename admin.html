@@ -589,7 +589,14 @@
 
     loadAppointments();
 
-  </script>
+    /* ADMIN LOGIN PROTECTION */
+
+    if (sessionStorage.getItem("kuyaAdminLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+
+</script>
 
 </body>
 </html>
+  
