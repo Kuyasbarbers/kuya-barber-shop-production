@@ -611,15 +611,18 @@ const database = firebase.database();
       .addEventListener("change", loadAppointments);
 
 
-    /* LOAD WHEN PAGE OPENS */
+    /* ADMIN LOGIN PROTECTION + LOAD */
 
-    loadAppointments();
+firebase.auth().onAuthStateChanged(function(user) {
 
-    /* ADMIN LOGIN PROTECTION */
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-    if (sessionStorage.getItem("kuyaAdminLoggedIn") !== "true") {
-      window.location.href = "login.html";
-    }
+  loadAppointments();
+
+});
 
 </script>
 
