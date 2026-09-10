@@ -1671,3 +1671,70 @@ footer {
   }
 
 }
+/* =========================
+   PREMIUM BOOKING CONFIRMATION
+========================= */
+
+.booking-success {
+  background: #f8f3eb;
+  border: 2px solid #d5a04b;
+  border-radius: 18px;
+  padding: 30px;
+  margin-top: 30px;
+  color: #21140e;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(33, 20, 14, 0.10);
+}
+
+.booking-success-message {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  text-align: left;
+}
+
+.success-icon {
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d5a04b;
+  color: #21140e;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.booking-success-message strong {
+  color: #21140e;
+}
+
+.booking-success-message p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.booking-success-message small {
+  display: block;
+  margin-top: 15px;
+  color: #766b63;
+}
+
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .booking-success {
+    padding: 22px 16px;
+  }
+
+  .booking-success-message {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+}
