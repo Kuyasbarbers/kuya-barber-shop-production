@@ -328,10 +328,22 @@ function isStaffAvailable(staff, date, time) {
     return false;
   }
 
-  return (
-    time >= schedule.start &&
-    time <= schedule.end
-  );
+  const selectedMinutes =
+  Number(time.split(":")[0]) * 60 +
+  Number(time.split(":")[1]);
+
+const startMinutes =
+  Number(schedule.start.split(":")[0]) * 60 +
+  Number(schedule.start.split(":")[1]);
+
+const endMinutes =
+  Number(schedule.end.split(":")[0]) * 60 +
+  Number(schedule.end.split(":")[1]);
+
+return (
+  selectedMinutes >= startMinutes &&
+  selectedMinutes <= endMinutes
+);
 }
     function updateStaffBySelection() {
 
