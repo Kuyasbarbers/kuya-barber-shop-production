@@ -201,6 +201,140 @@
       "change",
       updateServicesByBranch
     );
+         /* =======================================================
+       BRANCH + SERVICE STAFF FILTER
+       ======================================================= */
+
+    const goaHairStaff = [
+      "KUYA JERIC",
+      "KUYA CRIX",
+      "KUYA GIO",
+      "ATE MARJ"
+    ];
+
+    const goaNailStaff = [
+      "ATE DONA",
+      "ATE SHIE"
+    ];
+
+    const tigaonHairStaff = [
+      "KUYA HANZ"
+    ];
+
+    const tigaonNailStaff = [
+      "ATE LYKA"
+    ];
+
+    const tigaonMassageStaff = [
+      "ATE LYKA",
+      "ATE RESH"
+    ];
+
+    function updateStaffBySelection() {
+
+      if (!barberInput || !branchInput || !serviceInput) {
+        return;
+      }
+
+      const branch = branchInput.value;
+      const service = serviceInput.value;
+
+      let availableStaff = [];
+
+      /* GOA BRANCH */
+
+      if (branch === "Goa Branch") {
+
+        if (
+          hairServices.includes(service)
+        ) {
+          availableStaff = goaHairStaff;
+        }
+
+        else if (
+          nailServices.includes(service)
+        ) {
+          availableStaff = goaNailStaff;
+        }
+
+      }
+
+      /* TIGAON BRANCH */
+
+      else if (branch === "Tigaon Branch") {
+
+        if (
+          hairServices.includes(service)
+        ) {
+          availableStaff = tigaonHairStaff;
+        }
+
+        else if (
+          nailServices.includes(service)
+        ) {
+          availableStaff = tigaonNailStaff;
+        }
+
+        else if (
+          massageServices.includes(service)
+        ) {
+          availableStaff = tigaonMassageStaff;
+        }
+
+      }
+
+      barberInput.innerHTML = "";
+
+      const defaultOption =
+        document.createElement("option");
+
+      defaultOption.value = "";
+      defaultOption.textContent = "Select Staff";
+
+      barberInput.appendChild(defaultOption);
+
+      if (availableStaff.length > 0) {
+
+        const anyOption =
+          document.createElement("option");
+
+        anyOption.value = "Any Available Staff";
+        anyOption.textContent =
+          "Any Available Staff";
+
+        barberInput.appendChild(anyOption);
+
+      }
+
+      availableStaff.forEach(function (staff) {
+
+        const option =
+          document.createElement("option");
+
+        option.value = staff;
+        option.textContent = staff;
+
+        barberInput.appendChild(option);
+
+      });
+
+    }
+
+
+    /* Update staff when branch changes */
+
+    branchInput.addEventListener(
+      "change",
+      updateStaffBySelection
+    );
+
+
+    /* Update staff when service changes */
+
+    serviceInput.addEventListener(
+      "change",
+      updateStaffBySelection
+    );
 
     /* =======================================================
        GET SAVED APPOINTMENTS
