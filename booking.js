@@ -104,6 +104,8 @@
 
       branchInput.value = branchName;
 
+       updateServicesByBranch();
+
 
       /* Scroll to booking form */
 
@@ -124,7 +126,81 @@
 
       branchInput.focus();
     };
+    /* =======================================================
+       BRANCH-SPECIFIC SERVICES
+       Goa = Hair + Nail Services
+       Tigaon = Hair + Nail + Massage & Wellness
+       ======================================================= */
 
+    const hairServices = [
+      "Haircut — Men & Women",
+      "Hair Color",
+      "Hair Treatment",
+      "Hair Rebonding",
+      "Hair Perming",
+      "Hair Protein Straight",
+      "Scalp Treatment"
+    ];
+
+    const nailServices = [
+      "Manicure & Pedicure",
+      "Gel Polish",
+      "Nail Extensions",
+      "Footspa"
+    ];
+
+    const massageServices = [
+      "Swedish Massage",
+      "Thai Massage",
+      "Shiatsu Massage",
+      "Combination Massage",
+      "Hot Stone Massage",
+      "Ventosa",
+      "Ear Candling",
+      "Premium Footspa"
+    ];
+
+    function updateServicesByBranch() {
+
+      if (!serviceInput || !branchInput) {
+        return;
+      }
+
+      let availableServices = [
+        ...hairServices,
+        ...nailServices
+      ];
+
+      if (branchInput.value === "Tigaon Branch") {
+        availableServices = [
+          ...availableServices,
+          ...massageServices
+        ];
+      }
+
+      serviceInput.innerHTML = "";
+
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "Select Service";
+      serviceInput.appendChild(defaultOption);
+
+      availableServices.forEach(function (service) {
+
+        const option = document.createElement("option");
+
+        option.value = service;
+        option.textContent = service;
+
+        serviceInput.appendChild(option);
+
+      });
+    }
+
+    branchInput.addEventListener(
+      "change",
+      updateServicesByBranch
+    );
 
     /* =======================================================
        GET SAVED APPOINTMENTS
