@@ -229,6 +229,67 @@
       "ATE LYKA",
       "ATE RESH"
     ];
+     /* =======================================================
+   STAFF WORK SCHEDULE
+   ======================================================= */
+
+const staffSchedules = {
+
+  "KUYA JERIC": {
+    days: [2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "20:00"
+  },
+
+  "KUYA CRIX": {
+    days: [1, 2, 3, 5, 6, 0],
+    start: "08:00",
+    end: "20:00"
+  },
+
+  "KUYA GIO": {
+    days: [1, 2, 4, 5, 6, 0],
+    start: "08:00",
+    end: "20:00"
+  },
+
+  "ATE MARJ": {
+    days: [1, 2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "18:00"
+  },
+
+  "ATE DONA": {
+    days: [1, 2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "18:00"
+  },
+
+  "ATE SHIE": {
+    days: [2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "18:00"
+  },
+
+  "KUYA HANZ": {
+    days: [1, 2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "20:00"
+  },
+
+  "ATE LYKA": {
+    days: [2, 3, 4, 5, 6, 0],
+    start: "08:00",
+    end: "20:00"
+  },
+
+  "ATE RESH": {
+    days: [1, 2, 4, 5, 6, 0],
+    start: "11:00",
+    end: "23:00"
+  }
+
+};
 
     function updateStaffBySelection() {
 
