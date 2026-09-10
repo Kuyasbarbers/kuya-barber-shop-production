@@ -693,9 +693,26 @@
 
   </footer>
 
- <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-database-compat.js"></script>
-<script src="booking.js?v=2"></script>
 
+<script>
+  const firebaseConfig = {
+    apiKey: "hELh8hWkZoWVCgsUOSKRnswF6Cx1",
+    authDomain: "kuya-s-barber-shop.firebaseapp.com",
+    databaseURL: "https://kuya-s-barber-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "kuya-s-barber-shop",
+    storageBucket: "kuya-s-barber-shop.firebasestorage.app",
+    messagingSenderId: "254587285094",
+    appId: "1:254587285094:web:9d0de52d0d3bfc925947a7"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const database = firebase.database();
+</script>
+
+<script src="booking.js?v=2"></script>
 </body>
 </html>
