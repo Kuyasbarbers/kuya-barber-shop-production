@@ -512,16 +512,16 @@ const database = firebase.database();
         row.innerHTML = `
 
           <td class="reference">
-            ${safe(item.bookingReference)}
-          </td>
+  ${safe(item.bookingReference || item.reference)}
+</td>
 
-          <td>
-            ${safe(item.fullName)}
-          </td>
+<td>
+  ${safe(item.fullName || item.name)}
+</td>
 
-          <td>
-            ${safe(item.mobile)}
-          </td>
+<td>
+  ${safe(item.mobile || item.phone)}
+</td>
 
           <td class="branch">
             ${safe(item.branch)}
