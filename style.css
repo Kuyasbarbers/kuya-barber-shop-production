@@ -85,9 +85,12 @@ select {
   color: var(--white);
 }
 
-.logo-circle {
-  width: 46px;
-  height: 46px;
+.logo-image {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  display: block;
+}
 
   display: flex;
   justify-content: center;
@@ -102,20 +105,20 @@ select {
   font-weight: bold;
 }
 
-.logo strong {
-  display: block;
+/* LOGO */
 
-  font-size: 18px;
-  letter-spacing: 2px;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--white);
 }
 
-.logo span {
+.logo-image {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
   display: block;
-
-  font-size: 9px;
-  letter-spacing: 3px;
-
-  color: var(--gold);
 }
 
 
@@ -782,7 +785,10 @@ footer {
   .navbar {
     padding: 12px 5%;
   }
-
+   .logo-image {
+  width: 75px;
+  height: 75px;
+}
   .navbar nav {
     gap: 15px;
   }
@@ -1786,7 +1792,11 @@ footer {
   margin-bottom: 20px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px) { 
+   .logo-image {
+  width: 60px;
+  height: 60px;
+}
   #branches .cards {
     grid-template-columns: 1fr;
   }
