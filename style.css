@@ -92,36 +92,6 @@ select {
   display: block;
 }
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-
-  color: var(--gold);
-
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* LOGO */
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--white);
-}
-
-.logo-image {
-  width: 95px;
-  height: 95px;
-  object-fit: contain;
-  display: block;
-}
-
-
 /* NAV LINKS */
 
 .navbar nav {
