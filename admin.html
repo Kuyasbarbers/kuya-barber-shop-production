@@ -545,10 +545,10 @@ const database = firebase.database();
           </td>
           <td>
   <select class="status-select" onchange="updateAppointmentStatus('${safe(item.bookingReference || item.reference)}', this.value)">
-    <option value="Pending">Pending</option>
-    <option value="Confirmed">Confirmed</option>
-    <option value="Cancelled">Cancelled</option>
-    <option value="Completed">Completed</option>
+    <option value="Pending" ${item.status === "Pending" ? "selected" : ""}>Pending</option>
+    <option value="Confirmed" ${item.status === "Confirmed" ? "selected" : ""}>Confirmed</option>
+    <option value="Cancelled" ${item.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+    <option value="Completed" ${item.status === "Completed" ? "selected" : ""}>Completed</option>
   </select>
 </td>
         `;
