@@ -648,6 +648,12 @@ firebase.auth().onAuthStateChanged(function(user) {
 
   loadAppointments();
 
+  database
+    .ref("appointments")
+    .on("value", function() {
+      loadAppointments();
+    });
+
 });
 /* REAL-TIME FIREBASE UPDATES */
 async function updateAppointmentStatus(reference, status) {
@@ -688,11 +694,7 @@ async function updateAppointmentStatus(reference, status) {
   }
 
 }
-database
-  .ref("appointments")
-  .on("value", function() {
-    loadAppointments();
-  });
+
 </script>
 
 </body>
