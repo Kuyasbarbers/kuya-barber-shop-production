@@ -2333,17 +2333,10 @@ footer {
 @media (max-width: 600px) {
 
   .hero-content::before {
-    content: url("ChatGPT Image Sep 14, 2026, 04_00_45 PM.png") !important;
-
-    display: block !important;
-
-    width: 180px !important;
-    height: 180px !important;
-
-    margin: 0 auto 25px auto !important;
-
-    object-fit: contain !important;
-  }
+  content: none !important;
+  display: none !important;
+  background-image: none !important;
+}
 
   .hero-content {
     width: 100% !important;
