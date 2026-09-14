@@ -86,8 +86,8 @@ select {
 }
 
 .logo-image {
-  width: 115px;
-  height: 115px;
+  width: 145px;
+height: 145px;
   object-fit: contain;
   display: block;
 
@@ -760,8 +760,8 @@ footer {
     padding: 12px 5%;
   }
  .logo-image {
-  width: 82px;
-  height: 82px;
+  width: 100px;
+height: 100px;
   object-fit: contain;
 
   filter: invert(1);
