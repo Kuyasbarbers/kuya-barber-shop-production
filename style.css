@@ -2136,3 +2136,36 @@ footer {
   }
 
 }
+/* =========================================
+   MOBILE LOGO FIX
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .navbar {
+    min-height: 70px;
+    padding: 8px 18px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 10002;
+  }
+
+  .logo-image {
+    width: 120px;
+    height: 55px;
+    object-fit: contain;
+    transform: none;
+    transform-origin: center;
+    display: block;
+  }
+
+  .menu-toggle {
+    position: relative;
+    z-index: 10003;
+  }
+
+}
