@@ -2066,3 +2066,73 @@ footer {
   }
 
 }
+/* =========================================
+   MOBILE MENU FIX - KUYA'S BARBER SHOP
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .navbar {
+    position: relative;
+    z-index: 10001;
+  }
+
+  .nav-links.mobile-open {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: calc(100vh - 70px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 55px 24px 40px;
+
+    background: #1f120d;
+
+    z-index: 10000;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .nav-links.mobile-open a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 620px;
+    min-height: 52px;
+
+    margin-bottom: 22px;
+
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .nav-links.mobile-open .book-btn {
+    width: 100%;
+    max-width: 620px;
+    min-height: 54px;
+
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    padding: 14px 20px;
+    box-sizing: border-box;
+
+    border-radius: 30px;
+  }
+
+  body:has(.nav-links.mobile-open) {
+    overflow: hidden;
+  }
+
+}
