@@ -83,11 +83,10 @@ select {
     object-fit: contain;
     display: block;
 
-   transform: scale(2.5);
+   transform: scale(1.5);
     transform-origin: left center;
 
-    filter: invert(1);
-    mix-blend-mode: screen;
+    mix-blend-mode: lighten;
 }
 
 /* NAV LINKS */
