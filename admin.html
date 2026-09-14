@@ -359,7 +359,7 @@
 
   <div class="priority-grid">
 
-    <div class="priority-card pending">
+    <div class="priority-card pending" onclick="filterByPriority('pending')">
       <span class="priority-icon">🔴</span>
       <div>
         <strong id="priorityPending">0</strong>
@@ -367,7 +367,7 @@
       </div>
     </div>
 
-    <div class="priority-card upcoming">
+   <div class="priority-card upcoming" onclick="filterByPriority('upcoming')">
       <span class="priority-icon">🟡</span>
       <div>
         <strong id="priorityUpcoming">0</strong>
@@ -375,7 +375,7 @@
       </div>
     </div>
 
-    <div class="priority-card completed">
+  <div class="priority-card completed" onclick="filterByPriority('completed')">
       <span class="priority-icon">🟢</span>
       <div>
         <strong id="priorityCompleted">0</strong>
@@ -383,7 +383,7 @@
       </div>
     </div>
 
-    <div class="priority-card cancelled">
+   <div class="priority-card cancelled" onclick="filterByPriority('cancelled')">
       <span class="priority-icon">❌</span>
       <div>
         <strong id="priorityCancelled">0</strong>
