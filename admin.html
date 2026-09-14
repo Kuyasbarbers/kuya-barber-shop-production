@@ -645,7 +645,7 @@ updateTodaysPriority(allAppointments);
 
       const todayAppointments =
         allAppointments.filter(function(item) {
-          return item.date === todayString;
+         return String(item.date || "").trim() === todayString;
         });
 
       const pending =
