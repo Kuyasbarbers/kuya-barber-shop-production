@@ -264,7 +264,51 @@
       <h2>Appointment Management</h2>
       <p>View all appointments from all branches in real time.</p>
     </div>
+<!-- TODAY'S PRIORITY -->
+<div class="today-priority">
 
+  <div class="priority-header">
+    <h3>🎯 Today's Priority</h3>
+    <span id="priorityDate"></span>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="priority-card pending">
+      <span class="priority-icon">🔴</span>
+      <div>
+        <strong id="priorityPending">0</strong>
+        <small>Pending Confirmation</small>
+      </div>
+    </div>
+
+    <div class="priority-card upcoming">
+      <span class="priority-icon">🟡</span>
+      <div>
+        <strong id="priorityUpcoming">0</strong>
+        <small>Upcoming Appointments</small>
+      </div>
+    </div>
+
+    <div class="priority-card completed">
+      <span class="priority-icon">🟢</span>
+      <div>
+        <strong id="priorityCompleted">0</strong>
+        <small>Completed Today</small>
+      </div>
+    </div>
+
+    <div class="priority-card cancelled">
+      <span class="priority-icon">❌</span>
+      <div>
+        <strong id="priorityCancelled">0</strong>
+        <small>Cancelled Today</small>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
     <!-- STATISTICS -->
     <div class="stats">
