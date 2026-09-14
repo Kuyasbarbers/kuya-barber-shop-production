@@ -2333,7 +2333,7 @@ footer {
 @media (max-width: 600px) {
 
   .hero-content::before {
-  content: url("ChatGPT Image Sep 14, 2026, 04_00_45 PM.png") !important;
+  content: "" !important;
   display: block !important;
   width: 180px !important;
   height: 180px !important;
@@ -2364,4 +2364,16 @@ footer {
     background: none !important;
   }
 
+}
+/* REMOVE ONLY THE GHOST K ON MOBILE */
+
+@media (max-width: 600px) {
+  .hero {
+    background-position: center !important;
+  }
+
+  .hero-content {
+    position: relative !important;
+    z-index: 10 !important;
+  }
 }
