@@ -2374,3 +2374,37 @@ footer {
     z-index: 10 !important;
   }
 }
+/* =========================================
+   GIVING BACK TOGETHER - GALLERY
+========================================= */
+
+.charity-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  justify-items: center;
+}
+
+/* Center the 10th photo */
+.charity-gallery img:nth-child(10) {
+  grid-column: 2;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .charity-gallery {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .charity-gallery img:nth-child(10) {
+    grid-column: auto;
+  }
+
+  .charity-gallery img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}
