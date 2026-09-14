@@ -2226,3 +2226,29 @@ footer {
     display: block !important;
   }
 }
+/* =========================================
+   MOBILE HERO TEXT CENTER FIX
+   KUYA'S BARBER SHOP
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .hero-content {
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .hero-content .hero-title,
+  .hero-content h1 {
+    text-align: center !important;
+  }
+
+  .hero-content .hero-subtitle,
+  .hero-content p {
+    text-align: center !important;
+  }
+
+}
