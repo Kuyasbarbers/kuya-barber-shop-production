@@ -78,14 +78,7 @@ select {
 /* LOGO */
 
 .logo-image {
-    width: 250px;
-    height: 155px;
-    object-fit: contain;
-    display: block;
-}
-
-.logo-image {
-    width: 180px;
+    width: 220px;
     height: 160px;
     object-fit: contain;
     display: block;
