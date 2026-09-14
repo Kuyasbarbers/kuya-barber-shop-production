@@ -414,7 +414,53 @@
       </div>
 
     </div>
+</div>
 
+<!-- TODAY'S PRIORITY -->
+<section class="today-priority">
+
+  <div class="priority-header">
+    <h2>TODAY'S PRIORITY</h2>
+    <span id="priorityDate"></span>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="priority-card pending">
+      <span class="priority-icon">🔴</span>
+      <div>
+        <h3>Pending Confirmation</h3>
+        <strong id="priorityPending">0</strong>
+      </div>
+    </div>
+
+    <div class="priority-card upcoming">
+      <span class="priority-icon">🟡</span>
+      <div>
+        <h3>Upcoming Appointments</h3>
+        <strong id="priorityUpcoming">0</strong>
+      </div>
+    </div>
+
+    <div class="priority-card completed">
+      <span class="priority-icon">🟢</span>
+      <div>
+        <h3>Completed Today</h3>
+        <strong id="priorityCompleted">0</strong>
+      </div>
+    </div>
+
+    <div class="priority-card cancelled">
+      <span class="priority-icon">❌</span>
+      <div>
+        <h3>Cancelled Today</h3>
+        <strong id="priorityCancelled">0</strong>
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
     <!-- ACTIONS -->
     <div class="actions">
@@ -617,7 +663,7 @@ updateTodaysPriority(allAppointments);
           appointments.filter(function(item) {
             return item.branch === "Tigaon Branch";
           }).length;
-
+updateTodaysPriority(appointments);
 
       /* EMPTY */
 
@@ -706,84 +752,190 @@ updateTodaysPriority(allAppointments);
        TODAY'S PRIORITY
        ========================================================= */
 
-    function updateTodaysPriority(allAppointments) {
+function updateTodaysPriority(allAppointments) {
 
-      const today = new Date();
+  const today = new Date();
 
-      const todayString =
-        today.getFullYear() + "-" +
-        String(today.getMonth() + 1).padStart(2, "0") + "-" +
-        String(today.getDate()).padStart(2, "0");
+  const todayString =
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0") + "-" +
+    String(today.getDate()).padStart(2, "0");
 
-      const priorityDate =
-        document.getElementById("priorityDate");
+  /* TODAY'S DATE DISPLAY */
 
-      if (priorityDate) {
-        priorityDate.textContent =
-          today.toLocaleDateString("en-PH", {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          });
-      }
+  const priorityDate =
+    document.getElementById("priorityDate");
 
-      const todayAppointments =
-        allAppointments.filter(function(item) {
-         return String(item.date || "").trim() === todayString;
-        });
+  if (priorityDate) {
+    priorityDate.textContent =
+      today.toLocaleDateString("en-PH", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+      });
+  }
 
-      const pending =
-        todayAppointments.filter(function(item) {
-          return item.status === "Pending";
-        }).length;
 
-      const completed =
-        todayAppointments.filter(function(item) {
-          return item.status === "Completed";
-        }).length;
+  /* NORMALIZE STATUS */
 
-      const cancelled =
-        todayAppointments.filter(function(item) {
-          return item.status === "Cancelled";
-        }).length;
+  function getStatus(item) {
+    return String(item.status || "")
+      .trim()
+      .toLowerCase();
+  }
 
-      const now = new Date();
 
-      const upcoming =
-        todayAppointments.filter(function(item) {
+  /* NORMALIZE DATE */
 
-          if (item.status !== "Confirmed") {
+  function getDate(item) {
+    return String(item.date || "")
+      .trim()
+      .substring(0, 10);
+  }
+
+
+  /* TODAY'S APPOINTMENTS */
+
+  const todayAppointments =
+    allAppointments.filter(function(item) {
+
+      return getDate(item) === todayString;
+
+    });
+
+
+  /* PENDING = ALL PENDING TODAY */
+
+  const pending =
+    todayAppointments.filter(function(item) {
+
+      return getStatus(item) === "pending";
+
+    }).length;
+
+
+  /* COMPLETED = ALL COMPLETED TODAY */
+
+  const completed =
+    todayAppointments.filter(function(item) {
+
+      return getStatus(item) === "completed";
+
+    }).length;
+
+
+  /* CANCELLED = ALL CANCELLED TODAY */
+
+  const cancelled =
+    todayAppointments.filter(function(item) {
+
+      return getStatus(item) === "cancelled";
+
+    }).length;
+
+
+ /* UPCOMING = ALL CONFIRMED TODAY
+   THAT HAVE NOT PASSED YET */
+
+const now = new Date();
+
+const upcoming =
+    todayAppointments.filter(function(item) {
+
+        if (getStatus(item) !== "confirmed") {
             return false;
-          }
+        }
 
-          if (!item.time) {
+        if (!item.time) {
             return false;
-          }
+        }
 
-          const appointmentTime =
-            new Date(todayString + " " + item.time);
+        let timeString = String(item.time).trim().toUpperCase();
 
-          const difference =
-            appointmentTime.getTime() - now.getTime();
+        let appointmentTime = new Date(todayString + "T00:00:00");
 
-          return difference >= 0 &&
-                 difference <= 60 * 60 * 1000;
+        /* HANDLE 12-HOUR TIME */
+        const match12 = timeString.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/);
 
-        }).length;
+        if (match12) {
 
-      document.getElementById("priorityPending")
-        .textContent = pending;
+            let hour = parseInt(match12[1], 10);
+            const minute = parseInt(match12[2], 10);
+            const period = match12[3];
 
-      document.getElementById("priorityUpcoming")
-        .textContent = upcoming;
+            if (hour < 1 || hour > 12 || minute > 59) {
+                return false;
+            }
 
-      document.getElementById("priorityCompleted")
-        .textContent = completed;
+            if (period === "PM" && hour !== 12) {
+                hour += 12;
+            }
 
-      document.getElementById("priorityCancelled")
-        .textContent = cancelled;
-    }
+            if (period === "AM" && hour === 12) {
+                hour = 0;
+            }
+
+            appointmentTime.setHours(hour, minute, 0, 0);
+
+        } else {
+
+            /* HANDLE 24-HOUR TIME */
+            const match24 = timeString.match(/^(\d{1,2}):(\d{2})$/);
+
+            if (!match24) {
+                return false;
+            }
+
+            const hour = parseInt(match24[1], 10);
+            const minute = parseInt(match24[2], 10);
+
+            if (hour > 23 || minute > 59) {
+                return false;
+            }
+
+            appointmentTime.setHours(hour, minute, 0, 0);
+        }
+
+        return appointmentTime.getTime() >= now.getTime();
+
+    }).length;
+
+
+  /* UPDATE DISPLAY */
+
+  const priorityPending =
+    document.getElementById("priorityPending");
+
+  if (priorityPending) {
+    priorityPending.textContent = pending;
+  }
+
+
+  const priorityUpcoming =
+    document.getElementById("priorityUpcoming");
+
+  if (priorityUpcoming) {
+    priorityUpcoming.textContent = upcoming;
+  }
+
+
+  const priorityCompleted =
+    document.getElementById("priorityCompleted");
+
+  if (priorityCompleted) {
+    priorityCompleted.textContent = completed;
+  }
+
+
+  const priorityCancelled =
+    document.getElementById("priorityCancelled");
+
+  if (priorityCancelled) {
+    priorityCancelled.textContent = cancelled;
+  }
+
+}
     /* SAFE DISPLAY */
 
     function safe(value) {
