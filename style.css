@@ -77,12 +77,11 @@ select {
 
 /* LOGO */
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  color: var(--white);
+.logo-image {
+    width: 250px;
+    height: 155px;
+    object-fit: contain;
+    display: block;
 }
 
 .logo-image {
