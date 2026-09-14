@@ -86,8 +86,8 @@ select {
    transform: scale(1.5);
     transform-origin: left center;
 
-   filter: invert(1);
-mix-blend-mode: screen;
+  filter: brightness(0) invert(1);
+mix-blend-mode: normal;
 }
 
 /* NAV LINKS */
