@@ -322,6 +322,121 @@
         font-size: 24px;
       }
     }
+/* =========================================
+   TODAY'S PRIORITY - CLICKABLE CARDS
+========================================= */
+
+.today-priority {
+  margin: 30px 0;
+  padding: 24px;
+  background: #2b1a12;
+  border: 1px solid #d5a04b;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.priority-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.priority-header h3 {
+  margin: 0;
+  color: #d5a04b;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+#priorityDate {
+  color: #f5eee5;
+  font-size: 14px;
+}
+
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.priority-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  background: #3b2418;
+  border: 1px solid rgba(213, 160, 75, 0.45);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.priority-card:hover {
+  transform: translateY(-3px);
+  border-color: #d5a04b;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.priority-card:active {
+  transform: translateY(0);
+}
+
+.priority-icon {
+  font-size: 25px;
+}
+
+.priority-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.priority-card small {
+  display: block;
+  color: #f5eee5;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .today-priority {
+    padding: 18px;
+    margin: 20px 0;
+  }
+
+  .priority-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .priority-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .priority-card {
+    padding: 14px 12px;
+  }
+
+  .priority-icon {
+    font-size: 21px;
+  }
+
+  .priority-card strong {
+    font-size: 22px;
+  }
+
+  .priority-card small {
+    font-size: 11px;
+  }
+}
   </style>
 </head>
 
@@ -412,9 +527,55 @@
         <h3>TIGAON BRANCH</h3>
         <span class="stat-number" id="tigaonAppointments">0</span>
       </div>
+<!-- TODAY'S PRIORITY -->
+<div class="today-priority">
 
+  <div class="priority-header">
+    <h3>🎯 Today's Priority</h3>
+    <span id="priorityDate"></span>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="priority-card pending" onclick="filterByPriority('pending')">
+      <span class="priority-icon">🔴</span>
+      <div>
+        <strong id="priorityPending">0</strong>
+        <small>Pending Confirmation</small>
+      </div>
     </div>
+
+    <div class="priority-card upcoming" onclick="filterByPriority('upcoming')">
+      <span class="priority-icon">🟡</span>
+      <div>
+        <strong id="priorityUpcoming">0</strong>
+        <small>Upcoming Appointments</small>
+      </div>
+    </div>
+
+    <div class="priority-card completed" onclick="filterByPriority('completed')">
+      <span class="priority-icon">🟢</span>
+      <div>
+        <strong id="priorityCompleted">0</strong>
+        <small>Completed Today</small>
+      </div>
+    </div>
+
+    <div class="priority-card cancelled" onclick="filterByPriority('cancelled')">
+      <span class="priority-icon">❌</span>
+      <div>
+        <strong id="priorityCancelled">0</strong>
+        <small>Cancelled Today</small>
+      </div>
+    </div>
+
+  </div>
+
 </div>
+
+<!-- ACTIONS -->
+<div class="actions">
+    </div>
 
     <!-- ACTIONS -->
     <div class="actions">
@@ -519,7 +680,7 @@ const database = firebase.database();
 <script>
 
     const STORAGE_KEY = "kuyaBarberAppointments";
-
+     let priorityFilter = "all";
 
    async function loadAppointments() {
 
@@ -599,7 +760,124 @@ updateTodaysPriority(allAppointments);
         return matchesSearch && matchesBranch;
 
       });
+/* PRIORITY FILTER */
 
+if (priorityFilter !== "all") {
+
+  const todayString = new Date()
+    .toISOString()
+    .slice(0, 10);
+
+  const now = new Date();
+
+  appointments = appointments.filter(function(item) {
+
+    const itemDate =
+      String(item.date || item.appointmentDate || "")
+        .trim()
+        .slice(0, 10);
+
+    const status =
+      String(item.status || "")
+        .trim()
+        .toLowerCase();
+
+    /* PENDING */
+    if (priorityFilter === "pending") {
+      return (
+        itemDate === todayString &&
+        status === "pending"
+      );
+    }
+
+    /* COMPLETED */
+    if (priorityFilter === "completed") {
+      return (
+        itemDate === todayString &&
+        status === "completed"
+      );
+    }
+
+    /* CANCELLED */
+    if (priorityFilter === "cancelled") {
+      return (
+        itemDate === todayString &&
+        status === "cancelled"
+      );
+    }
+
+    /* UPCOMING */
+    if (
+      priorityFilter === "upcoming" &&
+      itemDate === todayString &&
+      status === "confirmed"
+    ) {
+
+      const timeValue =
+        item.time ||
+        item.appointmentTime ||
+        item.bookingTime ||
+        "";
+
+      if (!timeValue) return false;
+
+      let appointmentTime = String(timeValue)
+        .trim()
+        .toUpperCase();
+
+      let hours;
+      let minutes;
+
+      const ampmMatch =
+        appointmentTime.match(
+          /^(\d{1,2}):(\d{2})\s*(AM|PM)$/
+        );
+
+      if (ampmMatch) {
+
+        hours = Number(ampmMatch[1]);
+        minutes = Number(ampmMatch[2]);
+
+        if (ampmMatch[3] === "PM" && hours !== 12) {
+          hours += 12;
+        }
+
+        if (ampmMatch[3] === "AM" && hours === 12) {
+          hours = 0;
+        }
+
+      } else {
+
+        const timeMatch =
+          appointmentTime.match(
+            /^(\d{1,2}):(\d{2})$/
+          );
+
+        if (!timeMatch) return false;
+
+        hours = Number(timeMatch[1]);
+        minutes = Number(timeMatch[2]);
+
+      }
+
+      const appointmentDateTime =
+        new Date();
+
+      appointmentDateTime.setHours(
+        hours,
+        minutes,
+        0,
+        0
+      );
+
+      return appointmentDateTime >= now;
+    }
+
+    return false;
+
+  });
+
+}
 
       /* UPDATE STATISTICS */
 
@@ -617,7 +895,6 @@ updateTodaysPriority(allAppointments);
           appointments.filter(function(item) {
             return item.branch === "Tigaon Branch";
           }).length;
-updateTodaysPriority(appointments);
 
       /* EMPTY */
 
@@ -890,7 +1167,16 @@ const upcoming =
   }
 
 }
-    /* SAFE DISPLAY */
+  /* FILTER BY PRIORITY */
+
+function filterByPriority(priority) {
+
+  priorityFilter = priority;
+
+  loadAppointments();
+
+}
+  /* SAFE DISPLAY */
 
     function safe(value) {
 
