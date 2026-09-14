@@ -2477,3 +2477,93 @@ footer {
 .charity-video {
   margin-top: 45px;
 }
+/* =========================================
+   TODAY'S PRIORITY
+========================================= */
+
+.today-priority {
+  margin: 30px 0;
+  padding: 25px;
+  background: #21140e;
+  border: 1px solid #d5a04b;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.priority-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.priority-header h3 {
+  margin: 0;
+  color: #d5a04b;
+  font-size: 22px;
+}
+
+#priorityDate {
+  color: #e8c477;
+  font-size: 14px;
+}
+
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.priority-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  background: #4d2b1b;
+  border-radius: 12px;
+  border: 1px solid rgba(213, 160, 75, 0.35);
+}
+
+.priority-icon {
+  font-size: 25px;
+}
+
+.priority-card strong {
+  display: block;
+  font-size: 25px;
+  color: #ffffff;
+}
+
+.priority-card small {
+  display: block;
+  margin-top: 3px;
+  color: #f5eee5;
+  font-size: 13px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .today-priority {
+    padding: 18px;
+  }
+
+  .priority-header {
+    align-items: flex-start;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .priority-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .priority-card {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 450px) {
+  .priority-grid {
+    grid-template-columns: 1fr;
+  }
+}
