@@ -2444,3 +2444,36 @@ footer {
     max-height: none;
   }
 }
+/* =========================================
+   GIVING BACK TOGETHER - PREMIUM STYLE
+========================================= */
+
+.charity-section {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.charity-section h2 {
+  font-size: 42px;
+  margin-bottom: 15px;
+  color: #d5a04b;
+  font-weight: 700;
+}
+
+.charity-section > p {
+  max-width: 700px;
+  margin: 0 auto 35px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Charity Photos */
+.charity-gallery {
+  max-width: 1200px;
+  margin: 0 auto 45px;
+}
+
+/* Charity Video */
+.charity-video {
+  margin-top: 45px;
+}
