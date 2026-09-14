@@ -1790,3 +1790,73 @@ footer {
   margin: 0 auto 20px auto !important;
   border-radius: 12px !important;
 }
+/* =========================================
+   OFFICIAL KUYA'S NAVIGATION FIX
+========================================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 34px;
+}
+
+.nav-links a {
+  color: var(--white);
+  font-size: 17px;
+  font-weight: 700;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.nav-links .book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 29px;
+  border-radius: 30px;
+  background: var(--gold);
+  color: var(--brown-dark) !important;
+  font-weight: 800;
+}
+
+.nav-links .book-btn:hover {
+  background: var(--gold-light);
+  color: var(--brown-dark) !important;
+  transform: translateY(-2px);
+}
+
+/* Official original logo */
+.logo-image {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a:not(.book-btn) {
+    display: none;
+  }
+
+  .nav-links .book-btn {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .logo-image {
+    width: 68px;
+    height: 68px;
+  }
+}
