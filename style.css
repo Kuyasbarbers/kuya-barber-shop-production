@@ -86,16 +86,13 @@ select {
 }
 
 .logo-image {
-  width: 220px;
-  height: 150px;
-  object-fit: contain;
-  display: block;
+    width: 180px;
+    height: 160px;
+    object-fit: contain;
+    display: block;
 
-  transform: scale(1.35);
-  transform-origin: left center;
-
-  filter: invert(1);
-  mix-blend-mode: screen;
+    filter: invert(1);
+    mix-blend-mode: screen;
 }
 
 /* NAV LINKS */
