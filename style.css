@@ -2201,3 +2201,16 @@ footer {
     transform: none !important;
   }
 }
+/* =========================================
+   MOBILE LOGO - MAKE IT BRIGHT
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .navbar .logo-image {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+}
