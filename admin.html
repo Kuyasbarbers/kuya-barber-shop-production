@@ -463,14 +463,23 @@ const database = firebase.database();
 }
 
 
-      /* SORT NEWEST FIRST */
+     /* SORT NEWEST FIRST */
 
-      appointments.sort(function(a, b) {
+appointments.sort(function(a, b) {
 
-        return new Date(b.createdAt || 0)
-          - new Date(a.createdAt || 0);
+  return new Date(b.createdAt || 0)
+    - new Date(a.createdAt || 0);
 
-     });      /* SEARCH AND BRANCH FILTER */
+});
+
+/* UPDATE TODAY'S PRIORITY */
+
+const allAppointments = appointments.slice();
+
+updateTodaysPriority(allAppointments);
+     });    
+  
+  /* SEARCH AND BRANCH FILTER */
 
       const searchInput =
         document.getElementById("customerSearch");
@@ -609,7 +618,88 @@ const database = firebase.database();
 
     }
 
+    /* =========================================================
+       TODAY'S PRIORITY
+       ========================================================= */
 
+    function updateTodaysPriority(allAppointments) {
+
+      const today = new Date();
+
+      const todayString =
+        today.getFullYear() + "-" +
+        String(today.getMonth() + 1).padStart(2, "0") + "-" +
+        String(today.getDate()).padStart(2, "0");
+
+      const priorityDate =
+        document.getElementById("priorityDate");
+
+      if (priorityDate) {
+        priorityDate.textContent =
+          today.toLocaleDateString("en-PH", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+          });
+      }
+
+      const todayAppointments =
+        allAppointments.filter(function(item) {
+          return item.date === todayString;
+        });
+
+      const pending =
+        todayAppointments.filter(function(item) {
+          return item.status === "Pending";
+        }).length;
+
+      const completed =
+        todayAppointments.filter(function(item) {
+          return item.status === "Completed";
+        }).length;
+
+      const cancelled =
+        todayAppointments.filter(function(item) {
+          return item.status === "Cancelled";
+        }).length;
+
+      const now = new Date();
+
+      const upcoming =
+        todayAppointments.filter(function(item) {
+
+          if (item.status !== "Confirmed") {
+            return false;
+          }
+
+          if (!item.time) {
+            return false;
+          }
+
+          const appointmentTime =
+            new Date(todayString + " " + item.time);
+
+          const difference =
+            appointmentTime.getTime() - now.getTime();
+
+          return difference >= 0 &&
+                 difference <= 60 * 60 * 1000;
+
+        }).length;
+
+      document.getElementById("priorityPending")
+        .textContent = pending;
+
+      document.getElementById("priorityUpcoming")
+        .textContent = upcoming;
+
+      document.getElementById("priorityCompleted")
+        .textContent = completed;
+
+      document.getElementById("priorityCancelled")
+        .textContent = cancelled;
+    }
     /* SAFE DISPLAY */
 
     function safe(value) {
