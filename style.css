@@ -2288,3 +2288,41 @@ footer {
   }
 
 }
+/* =========================================
+   MOBILE HERO LOGO - KUYA'S BARBER SHOP
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  /* Large logo inside the hero */
+  .hero-content::before {
+    content: "";
+    display: block;
+
+    width: 180px;
+    height: 180px;
+
+    margin: 0 auto 25px auto;
+
+    background-image: url("ChatGPT Image Sep 14, 2026, 04_00_45 PM.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  /* Keep hero text centered */
+  .hero-content {
+    text-align: center !important;
+  }
+
+  .hero-content .hero-title,
+  .hero-content h1 {
+    text-align: center !important;
+  }
+
+  .hero-content .hero-subtitle,
+  .hero-content p {
+    text-align: center !important;
+  }
+
+}
