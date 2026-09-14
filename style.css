@@ -86,10 +86,14 @@ select {
 }
 
 .logo-image {
-  width: 95px;
-  height: 95px;
+  width: 115px;
+  height: 115px;
   object-fit: contain;
   display: block;
+
+  /* Remove the white JPEG background visually */
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 /* NAV LINKS */
@@ -755,9 +759,13 @@ footer {
   .navbar {
     padding: 12px 5%;
   }
-   .logo-image {
-  width: 75px;
-  height: 75px;
+ .logo-image {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
   .navbar nav {
     gap: 15px;
