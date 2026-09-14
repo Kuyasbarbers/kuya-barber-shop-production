@@ -2408,3 +2408,39 @@ footer {
     height: auto;
   }
 }
+/* =========================================
+   GIVING BACK TOGETHER - VIDEO
+========================================= */
+
+.charity-video {
+  width: min(900px, 90%);
+  margin: 50px auto 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 3px solid #d5a04b;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.20);
+  background: #1f120d;
+}
+
+.charity-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: cover;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .charity-video {
+    width: 92%;
+    margin: 35px auto 15px;
+    border-radius: 14px;
+    border-width: 2px;
+  }
+
+  .charity-video video {
+    width: 100%;
+    max-height: none;
+  }
+}
