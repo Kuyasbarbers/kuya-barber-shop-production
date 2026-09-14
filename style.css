@@ -2169,3 +2169,35 @@ footer {
   }
 
 }
+/* =========================================
+   FINAL MOBILE LOGO VISIBILITY FIX
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .navbar .logo {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    position: relative !important;
+    z-index: 10003 !important;
+
+    width: auto !important;
+    height: auto !important;
+  }
+
+  .navbar .logo-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    width: 120px !important;
+    height: 55px !important;
+
+    max-width: none !important;
+    object-fit: contain !important;
+
+    transform: none !important;
+  }
+}
