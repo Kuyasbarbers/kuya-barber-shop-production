@@ -78,10 +78,13 @@ select {
 /* LOGO */
 
 .logo-image {
-    width: 220px;
+    width: 250px;
     height: 160px;
     object-fit: contain;
     display: block;
+
+   transform: scale(2.5);
+    transform-origin: left center;
 
     filter: invert(1);
     mix-blend-mode: screen;
