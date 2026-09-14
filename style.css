@@ -2252,3 +2252,39 @@ footer {
   }
 
 }
+/* =========================================
+   FINAL MOBILE HERO CENTER
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .hero {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .hero-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .hero-content .hero-title,
+  .hero-content h1 {
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .hero-content .hero-subtitle,
+  .hero-content p {
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+}
