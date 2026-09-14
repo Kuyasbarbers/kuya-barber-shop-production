@@ -2345,3 +2345,21 @@ footer {
   }
 
 }
+/* =========================================
+   MOBILE HERO - REMOVE GHOST ELEMENTS
+========================================= */
+
+@media (max-width: 600px) {
+
+  .hero {
+    overflow: hidden !important;
+  }
+
+  .hero::before,
+  .hero::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+  }
+
+}
