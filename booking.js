@@ -976,10 +976,13 @@ timeInput.addEventListener(
 
                   has been received.
 
-                </p>
-
-                <p>
-
+    </p>
+        <p>
+          <strong>
+            Please wait for confirmation from Kuya's Barber Shop.
+          </strong>
+        </p>
+    <p>
                   <strong>
                     Service:
                   </strong>
