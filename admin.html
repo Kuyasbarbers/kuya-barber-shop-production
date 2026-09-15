@@ -1066,6 +1066,7 @@ tbody tr:last-child td {
                     <th>Branch</th>
                     <th>Total Appointments</th>
                     <th>Last Appointment</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -1275,17 +1276,197 @@ const filteredCustomers = customers.filter(customer =>
 
     body.innerHTML = filteredCustomers.map(customer => `
         <tr>
-            <td>${safe(customer.name)}</td>
-            <td>${safe(customer.mobile)}</td>
-            <td>${safe(customer.branch)}</td>
-            <td>${customer.total}</td>
-            <td>${safe(customer.lastDate)}</td>
-        </tr>
+    <td>${safe(customer.name)}</td>
+    <td>${safe(customer.mobile)}</td>
+    <td>${safe(customer.branch)}</td>
+    <td>${customer.total}</td>
+    <td>${safe(customer.lastDate)}</td>
+    <td>
+        <button onclick="viewCustomer('${safe(customer.name)}', '${safe(customer.mobile)}')">
+            👁️ View
+        </button>
+    </td>
+</tr>
 `).join("");
 }
-    
+function viewCustomer(name, mobile) {
+    const customerAppointments = Object.values(appointments || {}).filter(appointment => {
+        const appointmentName =
+            appointment.fullName ||
+            appointment.name ||
+            "";
+
+        const appointmentMobile =
+            appointment.mobile ||
+            appointment.phone ||
+            "";
+
+        return (
+            appointmentName.toLowerCase() === name.toLowerCase() &&
+            appointmentMobile === mobile
+        );
+    });
+
+    const history = customerAppointments.map(appointment => {
+        const reference =
+            appointment.bookingReference ||
+            appointment.reference ||
+            "-";
+
+        const date =
+            getAppointmentDate(appointment) ||
+            "-";
+
+        const time =
+            getAppointmentTime(appointment) ||
+            "-";
+
+        const service =
+            appointment.service ||
+            "-";
+
+        const branch =
+            appointment.branch ||
+            "-";
+
+        const barber =
+            appointment.barber ||
+            "Any Available Staff";
+
+        const status =
+            appointment.status ||
+            "Pending";
+
+        return `
+            <tr>
+                <td>${safe(reference)}</td>
+                <td>${safe(date)}</td>
+                <td>${safe(time)}</td>
+                <td>${safe(service)}</td>
+                <td>${safe(branch)}</td>
+                <td>${safe(barber)}</td>
+                <td>${safe(status)}</td>
+            </tr>
+        `;
+    }).join("");
+
+    const modal = document.createElement("div");
+
+    modal.id = "customerViewModal";
+
+    modal.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.55);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:9999;
+        padding:20px;
+    `;
+
+    modal.innerHTML = `
+        <div style="
+            background:#fff;
+            width:min(950px,100%);
+            max-height:90vh;
+            overflow:auto;
+            border-radius:18px;
+            padding:28px;
+            box-shadow:0 20px 60px rgba(0,0,0,.25);
+        ">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:15px;
+                margin-bottom:20px;
+            ">
+                <div>
+                    <h2 style="margin:0;color:#2b2118;">
+                        👤 Customer Details
+                    </h2>
+
+                    <p style="margin:6px 0 0;color:#777;">
+                        Customer appointment history
+                    </p>
+                </div>
+
+                <button
+                    onclick="document.getElementById('customerViewModal').remove()"
+                    style="
+                        border:1px solid #ddd;
+                        background:#fff;
+                        padding:8px 14px;
+                        border-radius:9px;
+                        cursor:pointer;
+                        font-size:14px;
+                    "
+                >
+                    ✕ Close
+                </button>
+            </div>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:14px;
+                margin-bottom:25px;
+            ">
+                <div style="padding:18px;background:#f8f4ef;border-radius:12px;">
+                    <div style="font-size:12px;color:#777;">CUSTOMER</div>
+                    <strong>${safe(name)}</strong>
+                </div>
+
+                <div style="padding:18px;background:#f8f4ef;border-radius:12px;">
+                    <div style="font-size:12px;color:#777;">MOBILE</div>
+                    <strong>${safe(mobile)}</strong>
+                </div>
+
+                <div style="padding:18px;background:#f8f4ef;border-radius:12px;">
+                    <div style="font-size:12px;color:#777;">TOTAL APPOINTMENTS</div>
+                    <strong>${customerAppointments.length}</strong>
+                </div>
+            </div>
+
+            <h3 style="margin:0 0 12px;color:#2b2118;">
+                📋 Appointment History
+            </h3>
+
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:#2b2118;color:#fff;">
+                            <th style="padding:12px;">Reference</th>
+                            <th style="padding:12px;">Date</th>
+                            <th style="padding:12px;">Time</th>
+                            <th style="padding:12px;">Service</th>
+                            <th style="padding:12px;">Branch</th>
+                            <th style="padding:12px;">Barber</th>
+                            <th style="padding:12px;">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${history || `
+                            <tr>
+                                <td colspan="7" style="padding:25px;text-align:center;">
+                                    No appointment history found.
+                                </td>
+                            </tr>
+                        `}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
 document.getElementById("customerSearch").addEventListener("input", renderCustomers);
-    
+
 /* =========================
    DASHBOARD
 ========================= */
