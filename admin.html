@@ -490,9 +490,9 @@ section > p {
 }
 
 table {
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
-    min-width: 900px;
 }
 
 thead {
@@ -565,7 +565,7 @@ tbody tr:last-child td {
     background: #ffffff;
     border: 1px solid #e8e1d9;
     border-radius: 20px;
-    overflow: hidden;
+    overflow-x: auto;
     box-shadow: 0 10px 30px rgba(43, 33, 24, 0.07);
 }
 
