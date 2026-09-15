@@ -489,6 +489,14 @@ tbody tr:hover {
     ">
         View customers and their appointment history.
     </p>
+    <div style="margin-bottom:18px;">
+    <input
+        type="text"
+        id="customerSearch"
+        placeholder="🔍 Search customer name or mobile number..."
+        style="width:100%;padding:14px 16px;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box;"
+    >
+</div>
 
     <div class="table-box">
         <table>
@@ -634,8 +642,10 @@ function loadAppointments() {
 
 }
 function renderCustomers() {
-    const body = document.getElementById("customersBody");
-
+const body = document.getElementById("customersBody");
+    
+const search = document.getElementById("customerSearch")?.value.toLowerCase().trim() || "";
+    
     if (!body) return;
 
     const customerMap = {};
@@ -680,9 +690,13 @@ function renderCustomers() {
         }
     });
 
-    const customers = Object.values(customerMap);
-
-    if (customers.length === 0) {
+const customers = Object.values(customerMap);
+    
+const filteredCustomers = customers.filter(customer =>
+    customer.name.toLowerCase().includes(search) ||
+    customer.mobile.includes(search)
+);
+   if (filteredCustomers.length === 0) {
         body.innerHTML = `
             <tr>
                 <td colspan="5" class="empty-state">
@@ -693,7 +707,7 @@ function renderCustomers() {
         return;
     }
 
-    body.innerHTML = customers.map(customer => `
+    body.innerHTML = filteredCustomers.map(customer => `
         <tr>
             <td>${safe(customer.name)}</td>
             <td>${safe(customer.mobile)}</td>
@@ -701,9 +715,11 @@ function renderCustomers() {
             <td>${customer.total}</td>
             <td>${safe(customer.lastDate)}</td>
         </tr>
-    `).join("");
+`).join("");
 }
-
+    
+document.getElementById("customerSearch").addEventListener("input", renderCustomers);
+    
 /* =========================
    DASHBOARD
 ========================= */
