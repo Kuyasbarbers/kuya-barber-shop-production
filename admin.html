@@ -1364,7 +1364,283 @@ function closeEditAppointmentModal() {
         modal.remove();
     }
 }
-function viewAppointment(key) {
+function editAppointment(key) {
+    const appointment = appointments[key];
+
+    if (!appointment) {
+        alert("Appointment not found.");
+        return;
+    }
+
+    const reference =
+        appointment.bookingReference ||
+        appointment.reference ||
+        key;
+
+    const name =
+        appointment.fullName ||
+        appointment.name ||
+        "";
+
+    const mobile =
+        appointment.mobile ||
+        appointment.phone ||
+        "";
+
+    const branch =
+        appointment.branch ||
+        "Goa Branch";
+
+    const service =
+        appointment.service ||
+        "";
+
+    const date =
+        getAppointmentDate(appointment);
+
+    const time =
+        getAppointmentTime(appointment);
+
+    const barber =
+        appointment.barber ||
+        "Any Barber";
+
+    const status =
+        appointment.status ||
+        "Pending";
+
+    const modal = document.createElement("div");
+
+    modal.id = "editAppointmentModal";
+
+    modal.innerHTML = `
+        <div style="
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.65);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:10000;
+            padding:20px;
+            overflow-y:auto;
+        ">
+
+            <div style="
+                background:#fff;
+                width:100%;
+                max-width:560px;
+                border-radius:18px;
+                padding:28px;
+                box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            ">
+
+                <h2 style="
+                    margin:0 0 5px;
+                    color:#2b2118;
+                ">
+                    ✏️ Edit Appointment
+                </h2>
+
+                <p style="
+                    margin:0 0 22px;
+                    color:#777;
+                ">
+                    Reference: <strong>${safe(reference)}</strong>
+                </p>
+
+                <label>Customer Name</label>
+                <input
+                    id="editName"
+                    type="text"
+                    value="${safe(name)}"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Mobile Number</label>
+                <input
+                    id="editMobile"
+                    type="text"
+                    value="${safe(mobile)}"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Branch</label>
+                <select
+                    id="editBranch"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+                    <option value="Goa Branch"
+                        ${branch === "Goa Branch" ? "selected" : ""}>
+                        Goa Branch
+                    </option>
+
+                    <option value="Tigaon Branch"
+                        ${branch === "Tigaon Branch" ? "selected" : ""}>
+                        Tigaon Branch
+                    </option>
+                </select>
+
+                <label>Service</label>
+                <input
+                    id="editService"
+                    type="text"
+                    value="${safe(service)}"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Date</label>
+                <input
+                    id="editDate"
+                    type="date"
+                    value="${safe(date)}"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Time</label>
+                <input
+                    id="editTime"
+                    type="text"
+                    value="${safe(time)}"
+                    placeholder="Example: 2:25 PM"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Barber</label>
+                <input
+                    id="editBarber"
+                    type="text"
+                    value="${safe(barber)}"
+                    style="width:100%;padding:11px;margin:6px 0 14px;"
+                >
+
+                <label>Status</label>
+                <select
+                    id="editStatus"
+                    style="width:100%;padding:11px;margin:6px 0 20px;"
+                >
+                    <option value="Pending"
+                        ${normalizeStatus(status) === "pending" ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option value="Confirmed"
+                        ${normalizeStatus(status) === "confirmed" ? "selected" : ""}>
+                        Confirmed
+                    </option>
+
+                    <option value="Completed"
+                        ${normalizeStatus(status) === "completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                    <option value="Cancelled"
+                        ${normalizeStatus(status) === "cancelled" ? "selected" : ""}>
+                        Cancelled
+                    </option>
+                </select>
+
+                <div style="
+                    display:flex;
+                    gap:10px;
+                ">
+
+                    <button
+                        onclick="saveEditedAppointment('${safe(key)}')"
+                        style="
+                            flex:1;
+                            padding:13px;
+                            border:none;
+                            border-radius:10px;
+                            background:#2b2118;
+                            color:#fff;
+                            font-weight:600;
+                            cursor:pointer;
+                        ">
+                        💾 Save Changes
+                    </button>
+
+                    <button
+                        onclick="closeEditAppointmentModal()"
+                        style="
+                            flex:1;
+                            padding:13px;
+                            border:none;
+                            border-radius:10px;
+                            background:#eee;
+                            color:#333;
+                            font-weight:600;
+                            cursor:pointer;
+                        ">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+    async function saveEditedAppointment(key) {
+    const appointment = appointments[key];
+
+    if (!appointment) {
+        alert("Appointment not found.");
+        return;
+    }
+
+    const name = document.getElementById("editName").value.trim();
+    const mobile = document.getElementById("editMobile").value.trim();
+    const branch = document.getElementById("editBranch").value;
+    const service = document.getElementById("editService").value.trim();
+    const date = document.getElementById("editDate").value;
+    const time = document.getElementById("editTime").value.trim();
+    const barber = document.getElementById("editBarber").value.trim();
+    const status = document.getElementById("editStatus").value;
+
+    if (!name || !mobile || !branch || !service || !date || !time) {
+        alert("Please complete all required fields.");
+        return;
+    }
+
+    const updates = {
+        fullName: name,
+        name: name,
+        mobile: mobile,
+        phone: mobile,
+        branch: branch,
+        service: service,
+        date: date,
+        appointmentDate: date,
+        time: time,
+        appointmentTime: time,
+        bookingTime: time,
+        barber: barber || "Any Barber",
+        status: status
+    };
+
+    try {
+        await update(ref(db, `appointments/${key}`), updates);
+
+        alert("Appointment updated successfully! ✅");
+
+        closeEditAppointmentModal();
+
+    } catch (error) {
+        console.error("Error updating appointment:", error);
+        alert("Failed to update appointment. Please try again.");
+    }
+}
+    function closeEditAppointmentModal() {
+    const modal = document.getElementById("editAppointmentModal");
+
+    if (modal) {
+        modal.remove();
+    }
+}
+    function viewAppointment(key) {
     const appointment = appointments[key];
 
     if (!appointment) {
