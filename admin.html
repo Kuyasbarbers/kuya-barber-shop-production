@@ -432,13 +432,14 @@ tbody tr:hover {
                     <th>Time</th>
                     <th>Barber</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody id="appointmentsBody">
 
                 <tr>
-                    <td colspan="9" class="empty-state">
+                    <td colspan="10" class="empty-state">
                         Loading appointments...
                     </td>
                 </tr>
@@ -853,98 +854,155 @@ function renderAppointments() {
     }
 
 
-    body.innerHTML = list.map(([key, item]) => {
+  body.innerHTML = list.map(([key, item]) => {
 
-        const reference =
-            item.bookingReference ||
-            item.reference ||
-            key;
+    const reference =
+        item.bookingReference ||
+        item.reference ||
+        key;
 
-        const name =
-            item.fullName ||
-            item.name ||
-            "";
+    const name =
+        item.fullName ||
+        item.name ||
+        "";
 
-        const mobile =
-            item.mobile ||
-            item.phone ||
-            "";
+    const mobile =
+        item.mobile ||
+        item.phone ||
+        "";
 
-        const branch =
-            item.branch ||
-            "";
+    const branch =
+        item.branch ||
+        "";
 
-        const service =
-            item.service ||
-            "";
+    const service =
+        item.service ||
+        "";
 
-        const date =
-            getAppointmentDate(item);
+    const date =
+        getAppointmentDate(item);
 
-        const time =
-            getAppointmentTime(item);
+    const time =
+        getAppointmentTime(item);
 
-        const barber =
-            item.barber ||
-            "Any Barber";
+    const barber =
+        item.barber ||
+        "Any Barber";
 
-        const status =
-            item.status ||
-            "Pending";
+    const status =
+        item.status ||
+        "Pending";
 
+    const normalizedStatus =
+        normalizeStatus(status);
 
-        return `
-            <tr>
+    let actionButtons = "";
 
-                <td>${safe(reference)}</td>
+    if (normalizedStatus === "pending") {
 
-                <td>${safe(name)}</td>
+        actionButtons = `
+            <button
+                class="action-btn confirm-btn"
+                onclick="updateStatus('${safe(key)}', 'Confirmed')">
+                Confirm
+            </button>
 
-                <td>${safe(mobile)}</td>
-
-                <td>${safe(branch)}</td>
-
-                <td>${safe(service)}</td>
-
-                <td>${safe(date)}</td>
-
-                <td>${safe(time)}</td>
-
-                <td>${safe(barber)}</td>
-
-                <td>
-                    <select
-                        class="status-select"
-                        onchange="updateStatus('${safe(key)}', this.value)">
-
-                        <option value="Pending"
-                            ${normalizeStatus(status) === "pending" ? "selected" : ""}>
-                            Pending
-                        </option>
-
-                        <option value="Confirmed"
-                            ${normalizeStatus(status) === "confirmed" ? "selected" : ""}>
-                            Confirmed
-                        </option>
-
-                        <option value="Completed"
-                            ${normalizeStatus(status) === "completed" ? "selected" : ""}>
-                            Completed
-                        </option>
-
-                        <option value="Cancelled"
-                            ${normalizeStatus(status) === "cancelled" ? "selected" : ""}>
-                            Cancelled
-                        </option>
-
-                    </select>
-                </td>
-
-            </tr>
+            <button
+                class="action-btn cancel-btn"
+                onclick="updateStatus('${safe(key)}', 'Cancelled')">
+                Cancel
+            </button>
         `;
 
-    }).join("");
+    } else if (normalizedStatus === "confirmed") {
 
+        actionButtons = `
+            <button
+                class="action-btn complete-btn"
+                onclick="updateStatus('${safe(key)}', 'Completed')">
+                Complete
+            </button>
+
+            <button
+                class="action-btn cancel-btn"
+                onclick="updateStatus('${safe(key)}', 'Cancelled')">
+                Cancel
+            </button>
+        `;
+
+    } else if (normalizedStatus === "completed") {
+
+        actionButtons = `
+            <span class="action-done">
+                ✓ Completed
+            </span>
+        `;
+
+    } else if (normalizedStatus === "cancelled") {
+
+        actionButtons = `
+            <span class="action-cancelled">
+                ✕ Cancelled
+            </span>
+        `;
+
+    }
+
+    return `
+        <tr>
+
+            <td>${safe(reference)}</td>
+
+            <td>${safe(name)}</td>
+
+            <td>${safe(mobile)}</td>
+
+            <td>${safe(branch)}</td>
+
+            <td>${safe(service)}</td>
+
+            <td>${safe(date)}</td>
+
+            <td>${safe(time)}</td>
+
+            <td>${safe(barber)}</td>
+
+            <td>
+                <select
+                    class="status-select"
+                    onchange="updateStatus('${safe(key)}', this.value)">
+
+                    <option value="Pending"
+                        ${normalizedStatus === "pending" ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option value="Confirmed"
+                        ${normalizedStatus === "confirmed" ? "selected" : ""}>
+                        Confirmed
+                    </option>
+
+                    <option value="Completed"
+                        ${normalizedStatus === "completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                    <option value="Cancelled"
+                        ${normalizedStatus === "cancelled" ? "selected" : ""}>
+                        Cancelled
+                    </option>
+
+                </select>
+            </td>
+
+            <td class="appointment-actions">
+                ${actionButtons}
+            </td>
+
+        </tr>
+    `;
+
+}).join("");
 }
 
 
