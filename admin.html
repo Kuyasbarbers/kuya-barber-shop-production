@@ -2539,7 +2539,7 @@ function editAppointment(key) {
     if (modal) {
         modal.remove();
     }
-} async function deleteAppointment(key) {
+async function deleteAppointment(key) {
     const appointment = appointments[key];
 
     if (!appointment) {
@@ -2566,9 +2566,11 @@ function editAppointment(key) {
     }
 
     try {
-        await remove(ref(db, `appointments/${key}`));
+        await database.ref("appointments/" + key).remove();
 
         alert("Appointment deleted successfully! 🗑️");
+
+        loadAppointments();
     } catch (error) {
         console.error("Error deleting appointment:", error);
         alert("Failed to delete appointment. Please try again.");
