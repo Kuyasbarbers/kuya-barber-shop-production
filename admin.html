@@ -149,76 +149,149 @@ body {
     font-size: 15px;
 }
 
-/* =========================
-   TODAY'S PRIORITY
-========================= */
+<!-- TODAY'S PRIORITY -->
+<section style="
+    margin:30px 0 24px;
+    padding:28px;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+">
 
-.today-priority {
-    background: linear-gradient(145deg, #ffffff, #f8f4ef);
-    border: 1px solid #e5ddd4;
-    border-radius: 22px;
-    padding: 28px;
-    margin-bottom: 28px;
-    box-shadow: 0 10px 30px rgba(43, 33, 24, 0.09);
-}
+    <h2 style="
+        margin:0 0 22px;
+        color:#2b2118;
+        font-size:28px;
+        text-align:center;
+    ">
+        Today's Priority
+    </h2>
 
-.today-priority h3 {
-    color: #2b2118;
-    margin: 0 0 20px;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-}
-.priority-card {
-    background: #ffffff;
-    border: 1px solid #e7ded5;
-    border-radius: 16px;
-    padding: 20px;
-    min-height: 105px;
-    box-shadow: 0 5px 16px rgba(43, 33, 24, 0.07);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
-}
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(2, 280px);
+        justify-content:center;
+        gap:16px;
+    ">
 
-.priority-card::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 5px;
-    height: 100%;
-    background: #2b2118;
-}
+        <!-- Pending -->
+        <div style="
+            background:#fff;
+            border:1px solid #e5ddd5;
+            border-radius:16px;
+            padding:20px;
+            min-height:120px;
+            box-sizing:border-box;
+            box-shadow:0 4px 12px rgba(0,0,0,0.06);
+        ">
+            <div style="
+                color:#7a6a5c;
+                font-size:14px;
+                font-weight:700;
+                margin-bottom:10px;
+            ">
+                PENDING CONFIRMATION
+            </div>
 
-.priority-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(43, 33, 24, 0.13);
-    border-color: #cdbfb2;
-}
+            <div id="pendingCount" style="
+                color:#2b2118;
+                font-size:38px;
+                font-weight:700;
+                line-height:1;
+            ">
+                0
+            </div>
+        </div>
 
-.priority-card.active {
-    transform: translateY(-2px);
-    border: 2px solid #2b2118;
-    box-shadow: 0 10px 25px rgba(43, 33, 24, 0.16);
-}
+        <!-- Upcoming -->
+        <div style="
+            background:#fff;
+            border:1px solid #e5ddd5;
+            border-radius:16px;
+            padding:20px;
+            min-height:120px;
+            box-sizing:border-box;
+            box-shadow:0 4px 12px rgba(0,0,0,0.06);
+        ">
+            <div style="
+                color:#7a6a5c;
+                font-size:14px;
+                font-weight:700;
+                margin-bottom:10px;
+            ">
+                UPCOMING APPOINTMENTS
+            </div>
 
-.priority-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #76685b;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 12px;
-}
+            <div id="upcomingCount" style="
+                color:#2b2118;
+                font-size:38px;
+                font-weight:700;
+                line-height:1;
+            ">
+                0
+            </div>
+        </div>
 
-.priority-number {
-    font-size: 34px;
-    font-weight: 800;
-    color: #2b2118;
-    line-height: 1;
-}
+        <!-- Completed -->
+        <div style="
+            background:#fff;
+            border:1px solid #e5ddd5;
+            border-radius:16px;
+            padding:20px;
+            min-height:120px;
+            box-sizing:border-box;
+            box-shadow:0 4px 12px rgba(0,0,0,0.06);
+        ">
+            <div style="
+                color:#7a6a5c;
+                font-size:14px;
+                font-weight:700;
+                margin-bottom:10px;
+            ">
+                COMPLETED TODAY
+            </div>
+
+            <div id="completedCount" style="
+                color:#2b2118;
+                font-size:38px;
+                font-weight:700;
+                line-height:1;
+            ">
+                0
+            </div>
+        </div>
+
+        <!-- Cancelled -->
+        <div style="
+            background:#fff;
+            border:1px solid #e5ddd5;
+            border-radius:16px;
+            padding:20px;
+            min-height:120px;
+            box-sizing:border-box;
+            box-shadow:0 4px 12px rgba(0,0,0,0.06);
+        ">
+            <div style="
+                color:#7a6a5c;
+                font-size:14px;
+                font-weight:700;
+                margin-bottom:10px;
+            ">
+                CANCELLED TODAY
+            </div>
+
+            <div id="cancelledCount" style="
+                color:#2b2118;
+                font-size:38px;
+                font-weight:700;
+                line-height:1;
+            ">
+                0
+            </div>
+        </div>
+
+    </div>
+</section>
 /* =========================
    STATISTICS
 ========================= */
