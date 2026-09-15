@@ -947,7 +947,13 @@ function renderAppointments() {
         `;
 
     }
-
+actionButtons += `
+    <button
+        class="action-btn view-btn"
+        onclick="viewAppointment('${safe(key)}')">
+        👁️ View
+    </button>
+`;
     return `
         <tr>
 
@@ -1064,7 +1070,209 @@ function updateStatus(key, status) {
         });
 
 }
+function viewAppointment(key) {
+    const appointment = appointments[key];
 
+    if (!appointment) {
+        alert("Appointment not found.");
+        return;
+    }
+
+    const reference =
+        appointment.bookingReference ||
+        appointment.reference ||
+        key;
+
+    const name =
+        appointment.fullName ||
+        appointment.name ||
+        "—";
+
+    const mobile =
+        appointment.mobile ||
+        appointment.phone ||
+        "—";
+
+    const branch =
+        appointment.branch ||
+        "—";
+
+    const service =
+        appointment.service ||
+        "—";
+
+    const date =
+        getAppointmentDate(appointment) ||
+        "—";
+
+    const time =
+        getAppointmentTime(appointment) ||
+        "—";
+
+    const barber =
+        appointment.barber ||
+        "Any Available Staff";
+
+    const status =
+        appointment.status ||
+        "Pending";
+
+    const modal = document.createElement("div");
+
+    modal.id = "appointmentModal";
+
+    modal.innerHTML = `
+        <div style="
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.65);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            padding:20px;
+        " onclick="closeAppointmentModal(event)">
+
+            <div style="
+                background:#fff;
+                width:100%;
+                max-width:520px;
+                border-radius:18px;
+                padding:28px;
+                box-shadow:0 20px 60px rgba(0,0,0,0.3);
+                position:relative;
+            " onclick="event.stopPropagation()">
+
+                <button
+                    onclick="closeAppointmentModal()"
+                    style="
+                        position:absolute;
+                        top:14px;
+                        right:16px;
+                        border:none;
+                        background:#f1f1f1;
+                        width:36px;
+                        height:36px;
+                        border-radius:50%;
+                        font-size:20px;
+                        cursor:pointer;
+                    ">
+                    ×
+                </button>
+
+                <h2 style="
+                    margin:0 0 6px;
+                    color:#2b2118;
+                ">
+                    ✂️ Appointment Details
+                </h2>
+
+                <p style="
+                    margin:0 0 22px;
+                    color:#777;
+                ">
+                    Booking Reference: <strong>${safe(reference)}</strong>
+                </p>
+
+                <div style="
+                    display:grid;
+                    gap:14px;
+                ">
+
+                    <div>
+                        <small style="color:#777;">Customer</small>
+                        <div style="font-size:18px;font-weight:600;">
+                            ${safe(name)}
+                        </div>
+                    </div>
+
+                    <div>
+                        <small style="color:#777;">Mobile</small>
+                        <div>${safe(mobile)}</div>
+                    </div>
+
+                    <div>
+                        <small style="color:#777;">Branch</small>
+                        <div>${safe(branch)}</div>
+                    </div>
+
+                    <div>
+                        <small style="color:#777;">Service</small>
+                        <div>${safe(service)}</div>
+                    </div>
+
+                    <div style="
+                        display:grid;
+                        grid-template-columns:1fr 1fr;
+                        gap:15px;
+                    ">
+                        <div>
+                            <small style="color:#777;">Date</small>
+                            <div>${safe(date)}</div>
+                        </div>
+
+                        <div>
+                            <small style="color:#777;">Time</small>
+                            <div>${safe(time)}</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <small style="color:#777;">Barber</small>
+                        <div>${safe(barber)}</div>
+                    </div>
+
+                    <div>
+                        <small style="color:#777;">Status</small>
+                        <div style="
+                            display:inline-block;
+                            margin-top:5px;
+                            padding:7px 14px;
+                            border-radius:20px;
+                            background:#f3eee8;
+                            font-weight:600;
+                        ">
+                            ${safe(status)}
+                        </div>
+                    </div>
+
+                </div>
+
+                <button
+                    onclick="closeAppointmentModal()"
+                    style="
+                        width:100%;
+                        margin-top:25px;
+                        padding:13px;
+                        border:none;
+                        border-radius:10px;
+                        background:#2b2118;
+                        color:white;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                    ">
+                    Close
+                </button>
+
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+function closeAppointmentModal(event) {
+    if (event && event.target !== event.currentTarget) {
+        return;
+    }
+
+    const modal = document.getElementById("appointmentModal");
+
+    if (modal) {
+        modal.remove();
+    }
+}
 
 /* =========================
    CLEAR ALL
