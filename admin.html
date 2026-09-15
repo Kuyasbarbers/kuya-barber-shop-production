@@ -1351,6 +1351,13 @@ function saveEditedAppointment(key) {
             alert("Failed to update appointment.");
         });
 }
+function closeEditAppointmentModal() {
+    const modal = document.getElementById("editAppointmentModal");
+
+    if (modal) {
+        modal.remove();
+    }
+}
 function viewAppointment(key) {
     const appointment = appointments[key];
 
