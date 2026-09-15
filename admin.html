@@ -1677,11 +1677,11 @@ function renderAppointments() {
         ) {
 
             if (
-                priorityFilter === "pending" &&
-                !(isToday(item) && status === "pending")
-            ) {
-                return false;
-            }
+    priorityFilter === "pending" &&
+    status !== "pending"
+) {
+    return false;
+}
 
             if (
                 priorityFilter === "completed" &&
