@@ -489,6 +489,27 @@ tbody tr:hover {
     ">
         View customers and their appointment history.
     </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+
+    <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+        <div style="font-size:30px;">👥</div>
+        <div style="font-size:14px;color:#777;margin-top:6px;">Total Customers</div>
+        <div id="totalCustomers" style="font-size:30px;font-weight:700;color:#2b2118;">0</div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+        <div style="font-size:30px;">📅</div>
+        <div style="font-size:14px;color:#777;margin-top:6px;">Total Appointments</div>
+        <div id="customerAppointments" style="font-size:30px;font-weight:700;color:#2b2118;">0</div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+        <div style="font-size:30px;">🔄</div>
+        <div style="font-size:14px;color:#777;margin-top:6px;">Returning Customers</div>
+        <div id="returningCustomers" style="font-size:30px;font-weight:700;color:#2b2118;">0</div>
+    </div>
+
+</div>
     <div style="margin-bottom:18px;">
     <input
         type="text"
@@ -692,6 +713,13 @@ const search = document.getElementById("customerSearch")?.value.toLowerCase().tr
 
 const customers = Object.values(customerMap);
     
+document.getElementById("totalCustomers").textContent = customers.length;
+
+document.getElementById("customerAppointments").textContent =
+    Object.keys(appointments || {}).length;
+
+document.getElementById("returningCustomers").textContent =
+    customers.filter(customer => customer.total > 1).length;
 const filteredCustomers = customers.filter(customer =>
     customer.name.toLowerCase().includes(search) ||
     customer.mobile.includes(search)
