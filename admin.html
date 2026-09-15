@@ -2823,7 +2823,7 @@ function clearAllAppointments() {
 
 firebase.auth().onAuthStateChanged(user => {
 
-    if (!user) {
+    if (!user || user.isAnonymous) {
 
         window.location.href = "login.html";
 
@@ -2839,16 +2839,29 @@ firebase.auth().onAuthStateChanged(user => {
    REALTIME UPDATES
 ========================= */
 
-database.ref("appointments")
-    .on("value", snapshot => {
+firebase.auth().onAuthStateChanged(user => {
 
-        appointments =
-            snapshot.val() || {};
+    if (!user || user.isAnonymous) {
 
-        updateDashboard();
-        renderAppointments();
+        window.location.href = "login.html";
 
-    });
+        return;
+    }
+
+    loadAppointments();
+
+    database.ref("appointments")
+        .on("value", snapshot => {
+
+            appointments =
+                snapshot.val() || {};
+
+            updateDashboard();
+            renderAppointments();
+
+        });
+
+});
 
 </script>
 
