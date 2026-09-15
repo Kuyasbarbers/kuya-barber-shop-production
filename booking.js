@@ -546,10 +546,58 @@ timeInput.addEventListener(
     const appointment =
       appointments[appointments.length - 1];
 
-    /* Save the newest appointment to Firebase */
+   /* Prepare a Firebase key without saving yet */
+const appointmentRef =
+    database.ref("appointments").push();
+
+/* Create the same unique slot key */
+const slotKey =
+    appointment.branch
+        .replace(/\s+/g, "_")
+        .replace(/[.#$[\]/]/g, "") +
+    "_" +
+    appointment.date +
+    "_" +
+    appointment.time
+        .replace(/\s+/g, "_")
+        .replace(/[:.]/g, "-") +
+    "_" +
+    appointment.barber
+        .replace(/\s+/g, "_")
+        .replace(/[.#$[\]/]/g, "");
+
+/* Reserve the slot atomically */
+const transactionResult =
     await database
-      .ref("appointments")
-      .push(appointment);
+        .ref("bookingSlots/" + slotKey)
+        .transaction(function(currentData) {
+
+            if (currentData !== null) {
+                return;
+            }
+
+            return {
+                appointmentKey: appointmentRef.key,
+                status: "Pending"
+            };
+
+        });
+
+/* Stop if another customer already reserved the slot */
+if (!transactionResult.committed) {
+
+    alert(
+        "Sorry, this time slot was just booked by another customer. Please choose another time."
+    );
+
+    return false;
+}
+
+/* Save the appointment */
+await database
+    .ref("appointments/" + appointmentRef.key)
+    .set(appointment);
+
 
     return true;
 
@@ -710,7 +758,7 @@ timeInput.addEventListener(
        = Already booked
        ======================================================= */
 
-   async function isAlreadyBooked(
+async function isAlreadyBooked(
   branch,
   date,
   time,
@@ -719,32 +767,34 @@ timeInput.addEventListener(
 
   try {
 
-    /* Make sure the customer is authenticated
-       before checking Firebase */
+    /* Make sure the customer is authenticated */
     if (!firebase.auth().currentUser) {
       await firebase.auth().signInAnonymously();
     }
 
-    /* Check Firebase for existing appointments */
+    /* Create the same unique slot key */
+    const slotKey =
+      branch
+        .replace(/\s+/g, "_")
+        .replace(/[.#$[\]/]/g, "") +
+      "_" +
+      date +
+      "_" +
+      time
+        .replace(/\s+/g, "_")
+        .replace(/[:.]/g, "-") +
+      "_" +
+      barber
+        .replace(/\s+/g, "_")
+        .replace(/[.#$[\]/]/g, "");
+
+    /* Check the booking slot only */
     const snapshot = await database
-      .ref("appointments")
+      .ref("bookingSlots/" + slotKey)
       .once("value");
 
-    const appointments = snapshot.val() || {};
-
-    return Object.values(appointments).some(
-      function (appointment) {
-
-        return (
-          appointment.branch === branch &&
-          appointment.date === date &&
-          appointment.time === time &&
-          appointment.barber === barber &&
-          appointment.status !== "Cancelled"
-        );
-
-      }
-    );
+    /* true = already booked */
+    return snapshot.exists();
 
   } catch (error) {
 
@@ -757,10 +807,10 @@ timeInput.addEventListener(
       "Unable to verify this time slot. Please try again."
     );
 
+    /* Stop booking if availability cannot be verified */
     return true;
   }
 }
-
     /* =======================================================
        FORM SUBMISSION
        ======================================================= */
