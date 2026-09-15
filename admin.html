@@ -960,6 +960,13 @@ actionButtons += `
         ✏️ Edit
     </button>
 `;
+      actionButtons += `
+    <button
+        class="action-btn delete-btn"
+        onclick="deleteAppointment('${safe(key)}')">
+        🗑️ Delete
+    </button>
+`;
     return `
         <tr>
 
@@ -1637,6 +1644,40 @@ function editAppointment(key) {
 
     if (modal) {
         modal.remove();
+    }
+} async function deleteAppointment(key) {
+    const appointment = appointments[key];
+
+    if (!appointment) {
+        alert("Appointment not found.");
+        return;
+    }
+
+    const reference =
+        appointment.bookingReference ||
+        appointment.reference ||
+        key;
+
+    const name =
+        appointment.fullName ||
+        appointment.name ||
+        "this customer";
+
+    const confirmed = confirm(
+        `Are you sure you want to delete appointment ${reference} for ${name}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        await remove(ref(db, `appointments/${key}`));
+
+        alert("Appointment deleted successfully! 🗑️");
+    } catch (error) {
+        console.error("Error deleting appointment:", error);
+        alert("Failed to delete appointment. Please try again.");
     }
 }
     function viewAppointment(key) {
