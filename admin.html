@@ -1622,8 +1622,7 @@ function editAppointment(key) {
     };
 
     try {
-        await update(ref(db, `appointments/${key}`), updates);
-
+        await database.ref("appointments/" + key).update(updates);
         alert("Appointment updated successfully! ✅");
 
         closeEditAppointmentModal();
