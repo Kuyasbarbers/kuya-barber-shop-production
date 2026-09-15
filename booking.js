@@ -710,30 +710,51 @@ timeInput.addEventListener(
        = Already booked
        ======================================================= */
 
-    function isAlreadyBooked(
-      branch,
-      date,
-      time,
-      barber
-    ) {
+    async function isAlreadyBooked(
+  branch,
+  date,
+  time,
+  barber
+) {
 
-      const appointments =
-        getAppointments();
+  try {
 
-      return appointments.some(
-        function (appointment) {
+    /* Check Firebase for existing appointments */
+    const snapshot = await database
+      .ref("appointments")
+      .once("value");
 
-          return (
-            appointment.branch === branch &&
-            appointment.date === date &&
-            appointment.time === time &&
-            appointment.barber === barber
-          );
+    const appointments = snapshot.val() || {};
 
-        }
-      );
-    }
+    return Object.values(appointments).some(
+      function (appointment) {
 
+        return (
+          appointment.branch === branch &&
+          appointment.date === date &&
+          appointment.time === time &&
+          appointment.barber === barber &&
+          appointment.status !== "Cancelled"
+        );
+
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Unable to check booking availability:",
+      error
+    );
+
+    /* Stop booking if availability cannot be verified */
+    alert(
+      "Unable to verify this time slot. Please try again."
+    );
+
+    return true;
+  }
+}
 
     /* =======================================================
        FORM SUBMISSION
@@ -857,7 +878,7 @@ timeInput.addEventListener(
            --------------------------------------------------- */
 
         if (
-          isAlreadyBooked(
+           await isAlreadyBooked(
             branch,
             date,
             time,
