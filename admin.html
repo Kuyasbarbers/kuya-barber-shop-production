@@ -470,6 +470,48 @@ tbody tr:hover {
 
     </div>
 
+<!-- CUSTOMER MANAGEMENT -->
+<section style="
+    margin:40px 0 18px;
+">
+    <h2 style="
+        margin:0;
+        color:#2b2118;
+        font-size:28px;
+    ">
+        👥 Customer Management
+    </h2>
+
+    <p style="
+        margin:6px 0 18px;
+        color:#777;
+        font-size:15px;
+    ">
+        View customers and their appointment history.
+    </p>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Mobile</th>
+                    <th>Branch</th>
+                    <th>Total Appointments</th>
+                    <th>Last Appointment</th>
+                </tr>
+            </thead>
+
+            <tbody id="customersBody">
+                <tr>
+                    <td colspan="5" class="empty-state">
+                        Loading customers...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 </main>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
@@ -591,7 +633,76 @@ function loadAppointments() {
         });
 
 }
+function renderCustomers() {
+    const body = document.getElementById("customersBody");
 
+    if (!body) return;
+
+    const customerMap = {};
+
+    Object.entries(appointments || {}).forEach(([key, appointment]) => {
+
+        const name =
+            appointment.fullName ||
+            appointment.name ||
+            "Unknown Customer";
+
+        const mobile =
+            appointment.mobile ||
+            appointment.phone ||
+            "-";
+
+        const branch =
+            appointment.branch ||
+            "-";
+
+        const date =
+            getAppointmentDate(appointment) ||
+            "-";
+
+        const customerKey =
+            `${name.toLowerCase()}_${mobile}`;
+
+        if (!customerMap[customerKey]) {
+            customerMap[customerKey] = {
+                name,
+                mobile,
+                branch,
+                total: 0,
+                lastDate: date
+            };
+        }
+
+        customerMap[customerKey].total++;
+
+        if (date > customerMap[customerKey].lastDate) {
+            customerMap[customerKey].lastDate = date;
+        }
+    });
+
+    const customers = Object.values(customerMap);
+
+    if (customers.length === 0) {
+        body.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    No customers found.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    body.innerHTML = customers.map(customer => `
+        <tr>
+            <td>${safe(customer.name)}</td>
+            <td>${safe(customer.mobile)}</td>
+            <td>${safe(customer.branch)}</td>
+            <td>${customer.total}</td>
+            <td>${safe(customer.lastDate)}</td>
+        </tr>
+    `).join("");
+}
 
 /* =========================
    DASHBOARD
