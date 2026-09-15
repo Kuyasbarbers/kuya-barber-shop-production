@@ -710,7 +710,7 @@ timeInput.addEventListener(
        = Already booked
        ======================================================= */
 
-    async function isAlreadyBooked(
+   async function isAlreadyBooked(
   branch,
   date,
   time,
@@ -718,6 +718,12 @@ timeInput.addEventListener(
 ) {
 
   try {
+
+    /* Make sure the customer is authenticated
+       before checking Firebase */
+    if (!firebase.auth().currentUser) {
+      await firebase.auth().signInAnonymously();
+    }
 
     /* Check Firebase for existing appointments */
     const snapshot = await database
@@ -747,7 +753,6 @@ timeInput.addEventListener(
       error
     );
 
-    /* Stop booking if availability cannot be verified */
     alert(
       "Unable to verify this time slot. Please try again."
     );
