@@ -924,6 +924,142 @@ tbody tr:last-child td {
         </button>
 
     </div>
+    </div>
+
+<!-- STAFF MANAGEMENT -->
+
+<section id="staffManagement" style="margin:42px 0 30px;">
+<h2 style="
+    margin:0;
+    color:#2b2118;
+    font-size:28px;
+    font-weight:800;
+">
+    👥 Staff Management
+</h2>
+
+<p style="
+    margin:6px 0 20px;
+    color:#777;
+    font-size:15px;
+">
+    Manage your team, branch assignments, roles, and staff status.
+</p>
+ <div style="
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:20px;
+">
+
+    <div class="stat-card">
+        <h3>Total Staff</h3>
+        <div class="stat-number" id="staffTotalCount">0</div>
+    </div>
+
+    <div class="stat-card">
+        <h3>Barbers</h3>
+        <div class="stat-number" id="staffBarberCount">0</div>
+    </div>
+
+    <div class="stat-card">
+        <h3>Cashiers</h3>
+        <div class="stat-number" id="staffCashierCount">0</div>
+    </div>
+
+    <div class="stat-card">
+        <h3>Therapists</h3>
+        <div class="stat-number" id="staffTherapistCount">0</div>
+    </div>
+
+</div>
+
+<button
+    type="button"
+    onclick="openStaffModal()"
+    style="
+        margin-bottom:18px;
+        padding:12px 18px;
+        border:none;
+        border-radius:12px;
+        background:#2b1b12;
+        color:#fff;
+        font-weight:800;
+        cursor:pointer;
+    ">
+    ＋ Add Staff
+</button>
+
+<div class="filters">
+
+    <input
+        type="text"
+        id="staffSearch"
+        placeholder="Search staff name or contact..."
+        oninput="renderStaff()"
+    >
+
+    <select
+        id="staffBranchFilter"
+        onchange="renderStaff()"
+    >
+        <option value="all">All Branches</option>
+        <option value="Goa Branch">Goa Branch</option>
+        <option value="Tigaon Branch">Tigaon Branch</option>
+    </select>
+
+    <select
+        id="staffRoleFilter"
+        onchange="renderStaff()"
+    >
+        <option value="all">All Roles</option>
+        <option value="Barber">Barber</option>
+        <option value="Cashier">Cashier</option>
+        <option value="Therapist">Therapist</option>
+    </select>
+
+    <select
+        id="staffStatusFilter"
+        onchange="renderStaff()"
+    >
+        <option value="all">All Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+    </select>
+
+</div>
+
+<div class="table-box">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Branch</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="staffBody">
+
+            <tr>
+                <td colspan="6">
+                    <div class="empty-state">
+                        No staff records yet.
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+</section>
     
 <!-- APPOINTMENT MANAGEMENT -->
 <section style="
