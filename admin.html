@@ -3002,8 +3002,185 @@ firebase.auth().onAuthStateChanged(user => {
         });
 
 });
+function openStaffModal() {
 
+    const modal = document.getElementById("staffModal");
+
+    if (!modal) {
+        alert("Staff modal not found.");
+        return;
+    }
+
+    modal.style.display = "flex";
+}
 </script>
+<!-- STAFF MODAL -->
+<div
+  id="staffModal"
+  style="
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(0,0,0,0.65);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  "
+>
+  <div
+    style="
+      width:100%;
+      max-width:520px;
+      background:#fff;
+      border-radius:18px;
+      padding:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    "
+  >
 
+    <h2 style="margin:0 0 6px;color:#2b2118;">
+      Add Staff
+    </h2>
+
+    <p style="margin:0 0 22px;color:#777;">
+      Add a new staff member to Kuya's Barber Shop.
+    </p>
+
+    <label style="display:block;margin-bottom:6px;font-weight:700;">
+      Staff Name
+    </label>
+
+    <input
+      type="text"
+      id="staffName"
+      placeholder="Enter staff name"
+      style="
+        width:100%;
+        padding:12px;
+        margin-bottom:16px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        box-sizing:border-box;
+      "
+    >
+
+    <label style="display:block;margin-bottom:6px;font-weight:700;">
+      Role
+    </label>
+
+    <select
+      id="staffRole"
+      style="
+        width:100%;
+        padding:12px;
+        margin-bottom:16px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        box-sizing:border-box;
+      "
+    >
+      <option value="">Select Role</option>
+      <option value="Barber">Barber</option>
+      <option value="Nail Technician">Nail Technician</option>
+      <option value="Cashier">Cashier</option>
+      <option value="Therapist">Therapist</option>
+    </select>
+
+    <label style="display:block;margin-bottom:6px;font-weight:700;">
+      Branch
+    </label>
+
+    <select
+      id="staffBranch"
+      style="
+        width:100%;
+        padding:12px;
+        margin-bottom:16px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        box-sizing:border-box;
+      "
+    >
+      <option value="">Select Branch</option>
+      <option value="Goa Branch">Goa Branch</option>
+      <option value="Tigaon Branch">Tigaon Branch</option>
+    </select>
+
+    <label style="display:block;margin-bottom:6px;font-weight:700;">
+      Contact Number
+    </label>
+
+    <input
+      type="text"
+      id="staffContact"
+      placeholder="Enter contact number"
+      style="
+        width:100%;
+        padding:12px;
+        margin-bottom:16px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        box-sizing:border-box;
+      "
+    >
+
+    <label style="display:block;margin-bottom:6px;font-weight:700;">
+      Status
+    </label>
+
+    <select
+      id="staffStatus"
+      style="
+        width:100%;
+        padding:12px;
+        margin-bottom:22px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        box-sizing:border-box;
+      "
+    >
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+
+      <button
+        type="button"
+        onclick="closeStaffModal()"
+        style="
+          padding:12px 18px;
+          border:none;
+          border-radius:10px;
+          background:#eee;
+          color:#333;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        onclick="saveStaff()"
+        style="
+          padding:12px 18px;
+          border:none;
+          border-radius:10px;
+          background:#2b1b12;
+          color:#fff;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        Save Staff
+      </button>
+
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
