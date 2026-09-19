@@ -3109,6 +3109,88 @@ async function saveStaff() {
     }
 
 }
+    function renderStaff(staff) {
+
+    const tableBody =
+        document.getElementById("staffTableBody");
+
+    if (!tableBody) {
+        return;
+    }
+
+    tableBody.innerHTML = "";
+
+    let totalStaff = 0;
+    let barbers = 0;
+    let nailTechnicians = 0;
+    let cashiers = 0;
+    let therapists = 0;
+
+
+    Object.entries(staff).forEach(([staffId, member]) => {
+
+        totalStaff++;
+
+        if (member.role === "Barber") {
+            barbers++;
+        }
+
+        if (member.role === "Nail Technician") {
+            nailTechnicians++;
+        }
+
+        if (member.role === "Cashier") {
+            cashiers++;
+        }
+
+        if (member.role === "Therapist") {
+            therapists++;
+        }
+
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${member.name || ""}</td>
+            <td>${member.role || ""}</td>
+            <td>${member.branch || ""}</td>
+            <td>${member.contact || ""}</td>
+            <td>
+                <span class="status-badge">
+                    ${member.status || ""}
+                </span>
+            </td>
+            <td>
+                <button
+                    class="action-btn view"
+                    onclick="viewStaff('${staffId}')">
+                    View
+                </button>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+
+    });
+
+
+    document.getElementById("staffTotalCount").textContent =
+        totalStaff;
+
+    document.getElementById("staffBarberCount").textContent =
+        barbers;
+
+    document.getElementById("staffNailTechnicianCount").textContent =
+        nailTechnicians;
+
+    document.getElementById("staffCashierCount").textContent =
+        cashiers;
+
+    document.getElementById("staffTherapistCount").textContent =
+        therapists;
+
+}
 </script>
 <!-- STAFF MODAL -->
 <div
