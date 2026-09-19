@@ -3110,8 +3110,7 @@ renderStaff(staff);
     }
 
 }
-   function renderStaff(staff) {
-
+   function renderStaff(staff = window.staffRecords || {}) {
     const tableBody =
         document.getElementById("staffBody");
 
