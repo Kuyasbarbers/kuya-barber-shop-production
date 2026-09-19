@@ -2989,7 +2989,7 @@ firebase.auth().onAuthStateChanged(user => {
     }
 
     loadAppointments();
-
+    loadStaff();
     database.ref("appointments")
         .on("value", snapshot => {
 
@@ -3012,6 +3012,102 @@ function openStaffModal() {
     }
 
     modal.style.display = "flex";
+}
+    function closeStaffModal() {
+
+    const modal = document.getElementById("staffModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+async function saveStaff() {
+
+    const name =
+        document.getElementById("staffName").value.trim();
+
+    const role =
+        document.getElementById("staffRole").value;
+
+    const branch =
+        document.getElementById("staffBranch").value;
+
+    const contact =
+        document.getElementById("staffContact").value.trim();
+
+    const status =
+        document.getElementById("staffStatus").value;
+
+
+    if (!name || !role || !branch || !contact) {
+
+        alert("Please complete all staff information.");
+
+        return;
+    }
+
+
+    const staffData = {
+
+        name: name,
+        role: role,
+        branch: branch,
+        contact: contact,
+        status: status,
+        createdAt: new Date().toISOString()
+
+    };
+
+
+    try {
+
+        await database
+            .ref("staff")
+            .push(staffData);
+
+        alert("Staff added successfully! ✅");
+
+        closeStaffModal();
+
+        document.getElementById("staffName").value = "";
+        document.getElementById("staffRole").value = "";
+        document.getElementById("staffBranch").value = "";
+        document.getElementById("staffContact").value = "";
+        document.getElementById("staffStatus").value = "Active";
+
+        loadStaff();
+
+    } catch (error) {
+
+        console.error("Error saving staff:", error);
+
+        alert("Unable to save staff. Please try again.");
+
+    }
+
+}
+    async function loadStaff() {
+
+    try {
+
+        const snapshot =
+            await database
+                .ref("staff")
+                .once("value");
+
+        const staff =
+            snapshot.val() || {};
+
+        renderStaff(staff);
+
+    } catch (error) {
+
+        console.error("Error loading staff:", error);
+
+    }
+
 }
 </script>
 <!-- STAFF MODAL -->
