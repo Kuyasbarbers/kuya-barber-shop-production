@@ -3109,16 +3109,32 @@ async function saveStaff() {
     }
 
 }
-    function renderStaff(staff) {
+   function renderStaff(staff) {
 
-   const tableBody =
-    document.getElementById("staffBody");
+    const tableBody =
+        document.getElementById("staffBody");
 
     if (!tableBody) {
         return;
     }
 
+    const search =
+        document.getElementById("staffSearch")?.value
+        .toLowerCase()
+        .trim() || "";
+
+    const branchFilter =
+        document.getElementById("staffBranchFilter")?.value || "all";
+
+    const roleFilter =
+        document.getElementById("staffRoleFilter")?.value || "all";
+
+    const statusFilter =
+        document.getElementById("staffStatusFilter")?.value || "all";
+
+
     tableBody.innerHTML = "";
+
 
     let totalStaff = 0;
     let barbers = 0;
@@ -3127,7 +3143,48 @@ async function saveStaff() {
     let therapists = 0;
 
 
-    Object.entries(staff).forEach(([staffId, member]) => {
+    const filteredStaff =
+        Object.entries(staff || {}).filter(([staffId, member]) => {
+
+            const name =
+                String(member.name || "").toLowerCase();
+
+            const contact =
+                String(member.contact || "").toLowerCase();
+
+
+            const matchesSearch =
+                !search ||
+                name.includes(search) ||
+                contact.includes(search);
+
+
+            const matchesBranch =
+                branchFilter === "all" ||
+                member.branch === branchFilter;
+
+
+            const matchesRole =
+                roleFilter === "all" ||
+                member.role === roleFilter;
+
+
+            const matchesStatus =
+                statusFilter === "all" ||
+                member.status === statusFilter;
+
+
+            return (
+                matchesSearch &&
+                matchesBranch &&
+                matchesRole &&
+                matchesStatus
+            );
+
+        });
+
+
+    Object.entries(staff || {}).forEach(([staffId, member]) => {
 
         totalStaff++;
 
@@ -3147,32 +3204,50 @@ async function saveStaff() {
             therapists++;
         }
 
+    });
 
-        const row =
-            document.createElement("tr");
 
-        row.innerHTML = `
-            <td>${member.name || ""}</td>
-            <td>${member.role || ""}</td>
-            <td>${member.branch || ""}</td>
-            <td>${member.contact || ""}</td>
-            <td>
-                <span class="status-badge">
-                    ${member.status || ""}
-                </span>
-            </td>
-            <td>
-                <button
-                    class="action-btn view"
-                    onclick="viewStaff('${staffId}')">
-                    View
-                </button>
-            </td>
+    if (filteredStaff.length === 0) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-state">
+                    No staff found.
+                </td>
+            </tr>
         `;
 
-        tableBody.appendChild(row);
+    } else {
 
-    });
+        filteredStaff.forEach(([staffId, member]) => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${member.name || ""}</td>
+                <td>${member.role || ""}</td>
+                <td>${member.branch || ""}</td>
+                <td>${member.contact || ""}</td>
+                <td>
+                    <span class="status-badge">
+                        ${member.status || ""}
+                    </span>
+                </td>
+                <td>
+                    <button
+                        class="action-btn view"
+                        onclick="viewStaff('${staffId}')">
+                        View
+                    </button>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    }
 
 
     document.getElementById("staffTotalCount").textContent =
