@@ -961,7 +961,10 @@ tbody tr:last-child td {
         <h3>Barbers</h3>
         <div class="stat-number" id="staffBarberCount">0</div>
     </div>
-
+<div class="stat-card">
+    <h3>Nail Technicians</h3>
+    <div class="stat-number" id="staffNailTechnicianCount">0</div>
+</div>
     <div class="stat-card">
         <h3>Cashiers</h3>
         <div class="stat-number" id="staffCashierCount">0</div>
@@ -1012,10 +1015,11 @@ tbody tr:last-child td {
         id="staffRoleFilter"
         onchange="renderStaff()"
     >
-        <option value="all">All Roles</option>
-        <option value="Barber">Barber</option>
-        <option value="Cashier">Cashier</option>
-        <option value="Therapist">Therapist</option>
+    <option value="all">All Roles</option>
+    <option value="Barber">Barber</option>
+    <option value="Nail Technician">Nail Technician</option>
+    <option value="Cashier">Cashier</option>
+    <option value="Therapist">Therapist</option>
     </select>
 
     <select
