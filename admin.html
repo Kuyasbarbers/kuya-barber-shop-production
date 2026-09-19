@@ -3100,7 +3100,8 @@ async function saveStaff() {
         const staff =
             snapshot.val() || {};
 
-        renderStaff(staff);
+       window.staffRecords = staff;
+renderStaff(staff);
 
     } catch (error) {
 
