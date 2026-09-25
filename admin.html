@@ -1945,7 +1945,26 @@ const todayKey =
     "-" +
     String(today.getDate()).padStart(2, "0");
 
+const READ_NOTIFICATIONS_KEY = "kuyaReadNotifications";
 
+function getReadNotifications() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(READ_NOTIFICATIONS_KEY) || "{}"
+        );
+    } catch (error) {
+        return {};
+    }
+}
+
+function getNotificationSignature(item) {
+    return [
+        normalizeStatus(item.status),
+        getAppointmentDate(item),
+        getAppointmentTime(item)
+    ].join("|");
+}
+    
 /* =========================
    HELPERS
 ========================= */
@@ -2017,13 +2036,34 @@ function toggleNotifications() {
 /* =========================
    LOAD APPOINTMENTS
 ========================= */
-function clearNotifications(event) {
+function clearNotifications(event, item) {
+
     if (event) {
         event.stopPropagation();
     }
 
-    const badge = document.getElementById("notificationBadge");
-    const list = document.getElementById("notificationList");
+    if (!item) return;
+
+    const readNotifications = getReadNotifications();
+
+    const key = Object.keys(appointments).find(
+        key => appointments[key] === item
+    );
+
+    if (!key) return;
+
+    readNotifications[key] = getNotificationSignature(item);
+
+    localStorage.setItem(
+        READ_NOTIFICATIONS_KEY,
+        JSON.stringify(readNotifications)
+    );
+
+    const badge =
+        document.getElementById("notificationBadge");
+
+    const list =
+        document.getElementById("notificationList");
 
     if (badge) {
         badge.textContent = "0";
@@ -2044,19 +2084,33 @@ function clearNotifications(event) {
 
     if (!badge || !list) return;
 
-    const items = Object.values(appointments || {});
+  const items = Object.entries(appointments || {});
 
-    const notifications = items.filter(item => {
+const readNotifications = getReadNotifications();
+
+const notifications = items
+    .filter(([key, item]) => {
 
         const status = normalizeStatus(item.status);
         const today = isToday(item);
+
+        const signature =
+            getNotificationSignature(item);
+
+        const isRead =
+            readNotifications[key] === signature;
+
+        if (isRead) {
+            return false;
+        }
 
         return (
             (status === "pending" && today) ||
             (status === "confirmed" && appointmentIsUpcoming(item))
         );
 
-    });
+    })
+  .map(([key, item]) => item);
 
     badge.textContent = notifications.length;
 
@@ -2078,7 +2132,7 @@ function clearNotifications(event) {
         return `
            <div
     class="notification-item"
- onclick="clearNotifications(event); viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
+onclick="clearNotifications(event, item); viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
     style="cursor:pointer;"
 >
 
