@@ -1341,7 +1341,7 @@ tbody tr:last-child td {
 
             <div class="header-notification" aria-label="Notifications">
                 🔔
-                <span class="notification-badge">3</span>
+               <span class="notification-badge" id="notificationBadge">0</span>
             </div>
 
             <div class="header-admin">
@@ -2273,7 +2273,16 @@ if (!isToday(item)) {
 
     document.getElementById("cancelledCount").textContent =
         cancelled;
+const notificationCount = pending + upcoming;
 
+const notificationBadge =
+  document.getElementById("notificationBadge");
+
+if (notificationBadge) {
+  notificationBadge.textContent = notificationCount;
+  notificationBadge.style.display =
+    notificationCount > 0 ? "flex" : "none";
+}
 }
 
 
