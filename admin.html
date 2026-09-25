@@ -2036,21 +2036,17 @@ function toggleNotifications() {
 /* =========================
    LOAD APPOINTMENTS
 ========================= */
-function clearNotifications(event, item) {
+function clearNotifications(event, key) {
 
     if (event) {
         event.stopPropagation();
     }
 
-    if (!item) return;
+  if (!key || !appointments[key]) return;
+
+const item = appointments[key];
 
     const readNotifications = getReadNotifications();
-
-    const key = Object.keys(appointments).find(
-        key => appointments[key] === item
-    );
-
-    if (!key) return;
 
     readNotifications[key] = getNotificationSignature(item);
 
@@ -2110,7 +2106,10 @@ const notifications = items
         );
 
     })
-  .map(([key, item]) => item);
+ .map(([key, item]) => ({
+    key,
+    item
+}));
 
     badge.textContent = notifications.length;
 
@@ -2125,14 +2124,14 @@ const notifications = items
         return;
     }
 
-    list.innerHTML = notifications.map(item => {
+  list.innerHTML = notifications.map(({ key, item }) => {
 
         const status = normalizeStatus(item.status);
 
         return `
            <div
     class="notification-item"
-onclick="clearNotifications(event, item); viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
+onclick="clearNotifications(event, '${safe(key)}'); viewAppointment('${safe(key)}')"
     style="cursor:pointer;"
 >
 
