@@ -2078,7 +2078,7 @@ function clearNotifications(event) {
         return `
            <div
     class="notification-item"
-    onclick="viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
+ onclick="clearNotifications(event); viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
     style="cursor:pointer;"
 >
 
