@@ -1257,6 +1257,88 @@ tbody tr:last-child td {
 .appointment-actions button:active {
     transform: scale(.97);
 }
+    /* =========================================
+   NOTIFICATION PANEL
+========================================= */
+
+.notification-panel {
+  position: fixed;
+  top: 82px;
+  right: 30px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  background: #ffffff;
+  border: 1px solid #d5a04b;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(43, 33, 24, 0.18);
+  z-index: 9999;
+  display: none;
+  overflow: hidden;
+}
+
+.notification-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: #2b2118;
+  color: #ffffff;
+}
+
+.notification-panel-header strong {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.notification-panel-header button {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.notification-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.notification-empty {
+  padding: 28px 20px;
+  text-align: center;
+  color: #777777;
+  font-size: 14px;
+}
+
+.notification-item {
+  padding: 15px 18px;
+  border-bottom: 1px solid #eeeeee;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background: #faf5ed;
+}
+
+.notification-item strong {
+  display: block;
+  color: #2b2118;
+  margin-bottom: 5px;
+}
+
+.notification-item span {
+  display: block;
+  color: #777777;
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .notification-panel {
+    top: 75px;
+    right: 15px;
+    width: 340px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1339,9 +1421,25 @@ tbody tr:last-child td {
                 <span>⌄</span>
             </div>
 
-            <div class="header-notification" aria-label="Notifications">
+        <div
+  class="header-notification"
+  aria-label="Notifications"
+  onclick="toggleNotifications()"
+>
                 🔔
                <span class="notification-badge" id="notificationBadge">0</span>
+            <div id="notificationPanel" class="notification-panel">
+    <div class="notification-panel-header">
+        <strong>Notifications</strong>
+        <button onclick="clearNotifications(event)">Clear</button>
+    </div>
+
+    <div id="notificationList" class="notification-list">
+        <div class="notification-empty">
+            No new notifications
+        </div>
+    </div>
+</div>
             </div>
 
             <div class="header-admin">
@@ -1362,7 +1460,21 @@ tbody tr:last-child td {
     </div>
 
 </header>
+<!-- NOTIFICATION PANEL -->
+<div id="notificationPanel" class="notification-panel">
 
+  <div class="notification-panel-header">
+    <strong>Notifications</strong>
+    <button onclick="toggleNotifications()">✕</button>
+  </div>
+
+  <div id="notificationList" class="notification-list">
+    <div class="notification-empty">
+      No new notifications.
+    </div>
+  </div>
+
+</div>
 <main class="container">
 
     <div class="dashboard-title">
@@ -1902,11 +2014,101 @@ function isToday(item) {
 
 }
 
+/* =========================
+   NOTIFICATION PANEL
+========================= */
 
+function toggleNotifications() {
+    const panel = document.getElementById("notificationPanel");
+
+    if (!panel) return;
+
+    panel.classList.toggle("show");
+}
 /* =========================
    LOAD APPOINTMENTS
 ========================= */
+function clearNotifications(event) {
+    if (event) {
+        event.stopPropagation();
+    }
 
+    const badge = document.getElementById("notificationBadge");
+    const list = document.getElementById("notificationList");
+
+    if (badge) {
+        badge.textContent = "0";
+    }
+
+    if (list) {
+        list.innerHTML = `
+            <div class="notification-empty">
+                No new notifications
+            </div>
+        `;
+    }
+}
+    function renderNotifications() {
+
+    const badge = document.getElementById("notificationBadge");
+    const list = document.getElementById("notificationList");
+
+    if (!badge || !list) return;
+
+    const items = Object.values(appointments || {});
+
+    const notifications = items.filter(item => {
+
+        const status = normalizeStatus(item.status);
+        const today = isToday(item);
+
+        return (
+            (status === "pending" && today) ||
+            (status === "confirmed" && appointmentIsUpcoming(item))
+        );
+
+    });
+
+    badge.textContent = notifications.length;
+
+    if (notifications.length === 0) {
+
+        list.innerHTML = `
+            <div class="notification-empty">
+                No new notifications
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML = notifications.map(item => {
+
+        const status = normalizeStatus(item.status);
+
+        return `
+            <div class="notification-item">
+
+                <strong>
+                    ${status === "pending"
+                        ? "🔴 Pending Confirmation"
+                        : "🟡 Upcoming Appointment"}
+                </strong>
+
+                <span>
+                    ${safe(item.name || item.customerName || "Customer")}
+                </span>
+
+                <small>
+                    ${safe(getAppointmentDate(item))}
+                    ${safe(getAppointmentTime(item))}
+                </small>
+
+            </div>
+        `;
+
+    }).join("");
+}
 function loadAppointments() {
 
     database.ref("appointments").once("value")
@@ -1914,9 +2116,10 @@ function loadAppointments() {
 
             appointments = snapshot.val() || {};
 
-            updateDashboard();
-            renderAppointments();
-            renderCustomers();
+          updateDashboard();
+          renderAppointments();
+          renderNotifications();
+          renderCustomers();
         })
         .catch(error => {
 
