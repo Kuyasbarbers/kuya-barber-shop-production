@@ -2076,7 +2076,11 @@ function clearNotifications(event) {
         const status = normalizeStatus(item.status);
 
         return `
-            <div class="notification-item">
+           <div
+    class="notification-item"
+    onclick="viewAppointment('${safe(Object.keys(appointments).find(key => appointments[key] === item))}')"
+    style="cursor:pointer;"
+>
 
                 <strong>
                     ${status === "pending"
