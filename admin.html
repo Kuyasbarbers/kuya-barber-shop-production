@@ -4012,7 +4012,13 @@ document.querySelectorAll(".sidebar-link").forEach(link => {
             }
 
         }
+if (target === "#customerManagement") {
 
+    if (customerSection) {
+        customerSection.style.display = "";
+    }
+
+}
         document.querySelectorAll(".sidebar-link")
             .forEach(item => item.classList.remove("active"));
 
