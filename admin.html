@@ -224,6 +224,17 @@ body {
     color: #2b2118;
     line-height: 1;
 }
+    .priority-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 50%;
+  font-size: 22px;
+  font-weight: 800;
+}
     /* =========================
    PRIORITY CARD COLORS
 ========================= */
@@ -1355,6 +1366,7 @@ tbody tr:last-child td {
         <div class="priority-grid">
 
             <div class="priority-card" data-filter="pending" onclick="togglePriorityFilter('pending')">
+                <span class="priority-icon">🕐</span>
                 <div class="priority-label">
                     Pending Confirmation
                 </div>
@@ -1364,6 +1376,7 @@ tbody tr:last-child td {
             </div>
 
             <div class="priority-card" data-filter="upcoming" onclick="togglePriorityFilter('upcoming')">
+                <span class="priority-icon">📅</span>
                 <div class="priority-label">
                     Upcoming Appointments
                 </div>
@@ -1373,6 +1386,7 @@ tbody tr:last-child td {
             </div>
 
             <div class="priority-card" data-filter="completed" onclick="togglePriorityFilter('completed')">
+                <span class="priority-icon">✓</span>
                 <div class="priority-label">
                     Completed Today
                 </div>
@@ -1382,6 +1396,7 @@ tbody tr:last-child td {
             </div>
 
             <div class="priority-card" data-filter="cancelled" onclick="togglePriorityFilter('cancelled')">
+                <span class="priority-icon">✕</span>
                 <div class="priority-label">
                     Cancelled Today
                 </div>
