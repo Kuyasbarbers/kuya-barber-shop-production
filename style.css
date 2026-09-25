@@ -2686,7 +2686,7 @@ footer {
   }
 }
 /* =====================================================
-   PHASE 1 — ADMIN SIDEBAR
+   PHASE 1 — SIDEBAR DESIGN
 ===================================================== */
 
 .admin-sidebar {
@@ -2694,26 +2694,26 @@ footer {
     top: 0;
     left: 0;
     bottom: 0;
+
     width: 240px;
-    z-index: 1000;
 
     display: flex;
     flex-direction: column;
 
-    background:
-        linear-gradient(
-            180deg,
-            #21160f 0%,
-            #2b1b12 55%,
-            #1d120c 100%
-        );
+    background: linear-gradient(
+        180deg,
+        #21160f 0%,
+        #2b1b12 55%,
+        #1d120c 100%
+    );
 
     color: #ffffff;
 
     border-right: 1px solid rgba(201,164,92,.20);
 
-    box-shadow:
-        8px 0 30px rgba(43,27,18,.12);
+    box-shadow: 8px 0 30px rgba(43,27,18,.12);
+
+    z-index: 1000;
 
     overflow-y: auto;
 }
@@ -2727,8 +2727,7 @@ footer {
 
     padding: 24px 20px;
 
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
 .sidebar-logo {
@@ -2741,11 +2740,9 @@ footer {
 
     border-radius: 12px;
 
-    background:
-        rgba(201,164,92,.12);
+    background: rgba(201,164,92,.12);
 
-    border:
-        1px solid rgba(201,164,92,.30);
+    border: 1px solid rgba(201,164,92,.30);
 
     font-size: 22px;
 }
@@ -2799,10 +2796,7 @@ footer {
     font-size: 13px;
     font-weight: 600;
 
-    transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease;
+    transition: .2s ease;
 }
 
 .sidebar-link span:first-child {
@@ -2814,37 +2808,31 @@ footer {
 }
 
 .sidebar-link:hover {
-    background:
-        rgba(255,255,255,.07);
+    background: rgba(255,255,255,.07);
 
     color: #ffffff;
-
-    transform: translateX(2px);
 }
 
 .sidebar-link.active {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(201,164,92,.25),
-            rgba(201,164,92,.10)
-        );
+    background: linear-gradient(
+        135deg,
+        rgba(201,164,92,.25),
+        rgba(201,164,92,.10)
+    );
 
     color: #e4c985;
 
-    border:
-        1px solid rgba(201,164,92,.18);
+    border: 1px solid rgba(201,164,92,.18);
 }
 
-/* BOTTOM */
+/* LOGOUT */
 
 .sidebar-bottom {
     margin-top: auto;
 
     padding: 18px 12px;
 
-    border-top:
-        1px solid rgba(255,255,255,.08);
+    border-top: 1px solid rgba(255,255,255,.08);
 }
 
 .sidebar-logout {
@@ -2856,11 +2844,9 @@ footer {
 
     border-radius: 11px;
 
-    background:
-        rgba(255,255,255,.06);
+    background: rgba(255,255,255,.06);
 
-    color:
-        rgba(255,255,255,.72);
+    color: rgba(255,255,255,.72);
 
     font-family: inherit;
 
@@ -2873,119 +2859,7 @@ footer {
 }
 
 .sidebar-logout:hover {
-    background:
-        rgba(185,74,72,.18);
+    background: rgba(185,74,72,.18);
 
     color: #ffffff;
-}
-
-/* =====================================================
-   PHASE 1 — MAIN CONTENT POSITION
-===================================================== */
-
-.admin-header {
-    margin-left: 240px;
-}
-
-.container {
-    margin-left: 240px;
-
-    max-width: none;
-
-    width: auto;
-
-    padding-left: 32px;
-    padding-right: 32px;
-}
-
-/* =====================================================
-   PHASE 1 — MOBILE SIDEBAR
-===================================================== */
-
-@media (max-width: 800px) {
-
-    .admin-sidebar {
-        width: 72px;
-    }
-
-    .sidebar-brand {
-        justify-content: center;
-
-        padding: 18px 10px;
-    }
-
-    .sidebar-brand > div:last-child {
-        display: none;
-    }
-
-    .sidebar-logo {
-        width: 42px;
-        height: 42px;
-    }
-
-    .sidebar-link {
-        justify-content: center;
-
-        padding: 0;
-    }
-
-    .sidebar-link span:last-child {
-        display: none;
-    }
-
-    .sidebar-link span:first-child {
-        width: auto;
-    }
-
-    .sidebar-bottom {
-        padding: 12px 10px;
-    }
-
-    .sidebar-logout {
-        font-size: 0;
-    }
-
-    .sidebar-logout::before {
-        content: "🚪";
-
-        font-size: 17px;
-    }
-
-    .admin-header {
-        margin-left: 72px;
-    }
-
-    .container {
-        margin-left: 72px;
-
-        padding-left: 18px;
-        padding-right: 18px;
-    }
-}
-
-@media (max-width: 550px) {
-
-    .admin-sidebar {
-        width: 62px;
-    }
-
-    .admin-header {
-        margin-left: 62px;
-    }
-
-    .container {
-        margin-left: 62px;
-
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    .sidebar-nav {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-
-    .sidebar-link {
-        min-height: 44px;
-    }
 }
