@@ -1191,7 +1191,72 @@ tbody tr:last-child td {
         display: none;
     }
 }
-    
+    /* =========================================
+   APPOINTMENT ACTION BUTTONS
+========================================= */
+
+.appointment-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+}
+
+.appointment-actions button {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s ease;
+    background: white;
+    color: var(--text);
+}
+
+.appointment-actions button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(43, 27, 18, .12);
+}
+
+/* Complete */
+.appointment-actions .complete-btn {
+    background: #eef8f1;
+    color: #247447;
+    border-color: #b9dfc5;
+}
+
+/* Cancel */
+.appointment-actions .cancel-btn {
+    background: #fff1f0;
+    color: #a63f3d;
+    border-color: #efc1be;
+}
+
+/* View */
+.appointment-actions .view-btn {
+    background: #f7f3ed;
+    color: #4b3020;
+    border-color: #d9c9b7;
+}
+
+/* Edit */
+.appointment-actions .edit-btn {
+    background: #fff8e9;
+    color: #8a681f;
+    border-color: #ead39a;
+}
+
+/* Delete */
+.appointment-actions .delete-btn {
+    background: #fff1f0;
+    color: #a63f3d;
+    border-color: #efc1be;
+}
+
+.appointment-actions button:active {
+    transform: scale(.97);
+}
 </style>
 </head>
 <body>
