@@ -224,6 +224,45 @@ body {
     color: #2b2118;
     line-height: 1;
 }
+    /* =========================
+   PRIORITY CARD COLORS
+========================= */
+
+.priority-card[data-filter="pending"] {
+    background: #fff1f1;
+    border-color: #f2c8c8;
+}
+
+.priority-card[data-filter="pending"]::before {
+    background: #e53935;
+}
+
+.priority-card[data-filter="upcoming"] {
+    background: #fff7e8;
+    border-color: #f1d39b;
+}
+
+.priority-card[data-filter="upcoming"]::before {
+    background: #f39c12;
+}
+
+.priority-card[data-filter="completed"] {
+    background: #edf9ef;
+    border-color: #c5e7ca;
+}
+
+.priority-card[data-filter="completed"]::before {
+    background: #2eae4d;
+}
+
+.priority-card[data-filter="cancelled"] {
+    background: #eeeeef;
+    border-color: #d2d2d4;
+}
+
+.priority-card[data-filter="cancelled"]::before {
+    background: #666666;
+}
 /* =========================
    STATISTICS
 ========================= */
