@@ -1593,7 +1593,7 @@ tbody tr:last-child td {
 </section>
     
 <!-- APPOINTMENT MANAGEMENT -->
-<section style="
+<section id="appointmentManagement" style="
     margin:30px 0 18px;
 ">
     <h2 style="
@@ -1613,7 +1613,7 @@ tbody tr:last-child td {
     </p>
 </section>
     <!-- FILTERS -->
-    <div class="filters">
+   <div id="appointmentFilters" class="filters">
 
         <input
             type="text"
@@ -1642,7 +1642,7 @@ tbody tr:last-child td {
     </div>
 
     <!-- APPOINTMENTS TABLE -->
-    <div class="table-box">
+   <div id="appointmentTable" class="table-box">
 
         <table>
 
@@ -3926,6 +3926,101 @@ function closeStaffViewModal() {
     }
 
 }
+    /* =========================
+   ADMIN SECTION NAVIGATION
+========================= */
+
+document.querySelectorAll(".sidebar-link").forEach(link => {
+
+    link.addEventListener("click", function(event) {
+
+        const target = this.getAttribute("href");
+
+        if (!target || !target.startsWith("#")) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const dashboardSections = [
+            document.querySelector(".dashboard-title"),
+            document.querySelector(".today-priority"),
+            document.querySelector(".stats"),
+            document.querySelector(".actions")
+        ];
+
+        const appointmentSection =
+            document.getElementById("appointmentManagement");
+
+        const appointmentFilters =
+            document.getElementById("appointmentFilters");
+
+        const appointmentTable =
+            document.getElementById("appointmentTable");
+
+        const staffSection =
+            document.getElementById("staffManagement");
+
+        const customerSection =
+            document.getElementById("customerManagement");
+
+        const allSections = [
+            ...dashboardSections,
+            appointmentSection,
+            appointmentFilters,
+            appointmentTable,
+            staffSection,
+            customerSection
+        ];
+
+        allSections.forEach(section => {
+            if (section) {
+                section.style.display = "none";
+            }
+        });
+
+        if (target === "#dashboard") {
+
+            dashboardSections.forEach(section => {
+                if (section) {
+                    section.style.display = "";
+                }
+            });
+
+        }
+
+        if (target === "#appointmentManagement") {
+
+            if (appointmentSection) {
+                appointmentSection.style.display = "";
+            }
+
+            if (appointmentFilters) {
+                appointmentFilters.style.display = "";
+            }
+
+            if (appointmentTable) {
+                appointmentTable.style.display = "";
+            }
+
+        }
+
+        if (target === "#staffManagement") {
+
+            if (staffSection) {
+                staffSection.style.display = "";
+            }
+
+        }
+
+        document.querySelectorAll(".sidebar-link")
+            .forEach(item => item.classList.remove("active"));
+
+        this.classList.add("active");
+
+    });
+
+});
 </script>
 <!-- STAFF MODAL -->
 <div
