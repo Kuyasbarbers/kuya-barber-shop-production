@@ -761,7 +761,70 @@ tbody tr:last-child td {
 </style>
 </head>
 <body>
+<!-- ADMIN SIDEBAR -->
+<aside class="admin-sidebar">
 
+    <div class="sidebar-brand">
+        <div class="sidebar-logo">✂️</div>
+
+        <div>
+            <strong>Kuya's</strong>
+            <strong>Barber Shop</strong>
+            <span>Admin Dashboard</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a href="#dashboard" class="sidebar-link active">
+            <span>🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#appointmentManagement" class="sidebar-link">
+            <span>📅</span>
+            <span>Appointments</span>
+        </a>
+
+        <a href="#staffManagement" class="sidebar-link">
+            <span>👥</span>
+            <span>Staff Management</span>
+        </a>
+
+        <a href="#customerManagement" class="sidebar-link">
+            <span>👤</span>
+            <span>Customer Management</span>
+        </a>
+
+        <a href="#services" class="sidebar-link">
+            <span>💇</span>
+            <span>Services</span>
+        </a>
+
+        <a href="#reports" class="sidebar-link">
+            <span>📊</span>
+            <span>Reports</span>
+        </a>
+
+        <a href="#settings" class="sidebar-link">
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <button
+            type="button"
+            class="sidebar-logout"
+            onclick="firebase.auth().signOut()">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</aside>
 <header class="admin-header">
     <div class="admin-header-inner">
         <div>
